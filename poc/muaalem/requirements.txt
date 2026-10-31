@@ -1,0 +1,9 @@
+# Install CPU torch first from https://download.pytorch.org/whl/cpu,
+# and quran-muaalem==0.2.2 with --no-deps (its torch pin pulls CUDA wheels).
+transformers==4.55.2
+quran-transcript==0.6.4
+diff-match-patch>=20241021
+numpy>=2.2.6
+rich>=14.1.0
+soundfile>=0.13
+soxr>=0.5

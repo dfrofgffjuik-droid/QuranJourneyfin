@@ -1,0 +1,10 @@
+{
+  "description": "Explore Quran passages, practice memorization and recitation, and review AI feedback designed to help learners improve with care and confidence.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

@@ -1,0 +1,3565 @@
+{
+ "meta": {
+  "generated_at": "2026-10-29T13:51:58.969Z",
+  "engine": "@tilawa/core 0.4.0 + zipformer_a0w_ep1_a05.int8.onnx",
+  "runtime": "onnxruntime-node 1.31.1",
+  "hardware": "CPU only",
+  "teacher_reviewed": false
+ },
+ "rows": [
+  {
+   "id": "correct_husary_murattal_1_2",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "1:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.695377434
+   },
+   "correction": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.6220794960000003
+   },
+   "audio_seconds": 6.35
+  },
+  {
+   "id": "correct_husary_murattal_1_3",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "1:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:3"
+    ],
+    "issues": [],
+    "transcript": "ءَررَحمَاانِررَحِۦۦم",
+    "seconds": 0.6753206010000004
+   },
+   "correction": {
+    "verses": [
+     "1:3"
+    ],
+    "issues": [],
+    "transcript": "ءَررَحمَاانِررَحِۦۦم",
+    "seconds": 0.5829195689999996
+   },
+   "audio_seconds": 4.57
+  },
+  {
+   "id": "correct_husary_murattal_1_4",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "1:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِيَومِددِۦۦن",
+    "seconds": 0.6676930360000006
+   },
+   "correction": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِيَومِددِۦۦن",
+    "seconds": 0.6410201850000012
+   },
+   "audio_seconds": 4.7
+  },
+  {
+   "id": "correct_husary_murattal_1_5",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "1:5-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَءِييَااكَنَستَعِۦۦۦۦن",
+    "seconds": 0.8898991499999993
+   },
+   "correction": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَءِييَااكَنَستَعِۦۦۦۦن",
+    "seconds": 0.7808231500000001
+   },
+   "audio_seconds": 6.92
+  },
+  {
+   "id": "correct_husary_murattal_1_6",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "1:6-6",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:6"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:6"
+    ],
+    "issues": [],
+    "transcript": "ءِهدِنَصصِرَااطَلمُستَقِۦۦم",
+    "seconds": 0.6510450270000001
+   },
+   "correction": {
+    "verses": [
+     "1:6"
+    ],
+    "issues": [],
+    "transcript": "ءِهدِنَصصِرَااطَلمُستَقِۦۦم",
+    "seconds": 0.564128675
+   },
+   "audio_seconds": 5.43
+  },
+  {
+   "id": "correct_husary_murattal_1_7",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "1:7-7",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:7"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَعَلَيهِمغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦن",
+    "seconds": 1.4700685440000016
+   },
+   "correction": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَعَلَيهِمغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦن",
+    "seconds": 1.519321093999999
+   },
+   "audio_seconds": 14.9558125
+  },
+  {
+   "id": "correct_husary_murattal_112_1",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "112:1-1",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:1"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:1"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇ",
+    "seconds": 0.6180217480000029
+   },
+   "correction": {
+    "verses": [
+     "112:1"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇ",
+    "seconds": 0.6058812919999982
+   },
+   "audio_seconds": 5.9
+  },
+  {
+   "id": "correct_husary_murattal_112_2",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "112:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:2"
+    ],
+    "issues": [],
+    "transcript": "عَللَااهُصصَمَدڇ",
+    "seconds": 0.6729068890000017
+   },
+   "correction": {
+    "verses": [
+     "112:2"
+    ],
+    "issues": [],
+    "transcript": "عَللَااهُصصَمَدڇ",
+    "seconds": 0.5302069180000035
+   },
+   "audio_seconds": 5.12
+  },
+  {
+   "id": "correct_husary_murattal_112_3",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "112:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميَلِدڇوَلَميُۥۥلَدڇ",
+    "seconds": 0.6659490690000021
+   },
+   "correction": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميَلِدڇوَلَميُۥۥلَدڇ",
+    "seconds": 0.7400542490000007
+   },
+   "audio_seconds": 6.01
+  },
+  {
+   "id": "correct_husary_murattal_112_4",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "112:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 1.0253261390000044
+   },
+   "correction": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 1.0133250320000007
+   },
+   "audio_seconds": 8.1280625
+  },
+  {
+   "id": "correct_husary_murattal_113_1",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "113:1-1",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:1"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇ",
+    "seconds": 0.6837077550000031
+   },
+   "correction": {
+    "verses": [
+     "113:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇ",
+    "seconds": 0.8890481839999993
+   },
+   "audio_seconds": 6.37
+  },
+  {
+   "id": "correct_husary_murattal_113_2",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "113:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِمَااخَلَقڇ",
+    "seconds": 0.6426878680000009
+   },
+   "correction": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِمَااخَلَقڇ",
+    "seconds": 0.6795455300000031
+   },
+   "audio_seconds": 5.54
+  },
+  {
+   "id": "correct_husary_murattal_113_3",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "113:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:3"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇ",
+    "seconds": 0.8916375090000002
+   },
+   "correction": {
+    "verses": [
+     "113:3"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇ",
+    "seconds": 0.8684423160000005
+   },
+   "audio_seconds": 7.73
+  },
+  {
+   "id": "correct_husary_murattal_113_4",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "113:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:4"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِننننَففَااثَااتِفِلعُقَدڇ",
+    "seconds": 0.815495412999997
+   },
+   "correction": {
+    "verses": [
+     "113:4"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِننننَففَااثَااتِفِلعُقَدڇ",
+    "seconds": 0.811824474999994
+   },
+   "audio_seconds": 9.3
+  },
+  {
+   "id": "correct_husary_murattal_113_5",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "113:5-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:5"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِحَااسِدِنءِذَااحَسَدڇ",
+    "seconds": 0.8697026869999972
+   },
+   "correction": {
+    "verses": [
+     "113:5"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِحَااسِدِنءِذَااحَسَدڇ",
+    "seconds": 0.7983004230000006
+   },
+   "audio_seconds": 7.7641875
+  },
+  {
+   "id": "correct_husary_murattal_114_1",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "114:1-1",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:1"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااس",
+    "seconds": 0.9291243850000028
+   },
+   "correction": {
+    "verses": [
+     "114:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااس",
+    "seconds": 0.8689853100000037
+   },
+   "audio_seconds": 7.99
+  },
+  {
+   "id": "correct_husary_murattal_114_2",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "114:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:2"
+    ],
+    "issues": [],
+    "transcript": "مَلِكِننننَااس",
+    "seconds": 0.8479262630000012
+   },
+   "correction": {
+    "verses": [
+     "114:2"
+    ],
+    "issues": [],
+    "transcript": "مَلِكِننننَااس",
+    "seconds": 0.6196161100000027
+   },
+   "audio_seconds": 4.78
+  },
+  {
+   "id": "correct_husary_murattal_114_3",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "114:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:3"
+    ],
+    "issues": [],
+    "transcript": "ءِلَااهِننننَااس",
+    "seconds": 0.719797756
+   },
+   "correction": {
+    "verses": [
+     "114:3"
+    ],
+    "issues": [],
+    "transcript": "ءِلَااهِننننَااس",
+    "seconds": 0.5343125180000061
+   },
+   "audio_seconds": 5.04
+  },
+  {
+   "id": "correct_husary_murattal_114_4",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "114:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلوَسوَااسِلخَننننَااس",
+    "seconds": 1.0432948199999956
+   },
+   "correction": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلوَسوَااسِلخَننننَااس",
+    "seconds": 1.1980743660000008
+   },
+   "audio_seconds": 9.51
+  },
+  {
+   "id": "correct_husary_murattal_114_5",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "114:5-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:5"
+    ],
+    "issues": [],
+    "transcript": "ءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااس",
+    "seconds": 1.0194778440000083
+   },
+   "correction": {
+    "verses": [
+     "114:5"
+    ],
+    "issues": [],
+    "transcript": "ءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااس",
+    "seconds": 1.0858149490000069
+   },
+   "audio_seconds": 10.55
+  },
+  {
+   "id": "correct_husary_murattal_114_6",
+   "category": "correct",
+   "reciter": "husary_murattal",
+   "passage": "114:6-6",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:6"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "مِنَلجِننننَتِوَننننَااس",
+    "seconds": 0.9282572340000043
+   },
+   "correction": {
+    "verses": [
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "مِنَلجِننننَتِوَننننَااس",
+    "seconds": 0.8624630949999992
+   },
+   "audio_seconds": 8.4995
+  },
+  {
+   "id": "correct_alafasy_murattal_1_2",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "1:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.7887875390000118
+   },
+   "correction": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.6177248229999969
+   },
+   "audio_seconds": 5.59
+  },
+  {
+   "id": "correct_alafasy_murattal_1_3",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "1:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:3"
+    ],
+    "issues": [],
+    "transcript": "ءَررَحمَاانِررَحِۦۦۦۦم",
+    "seconds": 0.5034662850000022
+   },
+   "correction": {
+    "verses": [
+     "1:3"
+    ],
+    "issues": [],
+    "transcript": "ءَررَحمَاانِررَحِۦۦۦۦم",
+    "seconds": 0.5796112250000005
+   },
+   "audio_seconds": 4.62
+  },
+  {
+   "id": "correct_alafasy_murattal_1_4",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "1:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِيَومِددِۦۦۦۦن",
+    "seconds": 0.5187308489999995
+   },
+   "correction": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِيَومِددِۦۦۦۦن",
+    "seconds": 0.5912002240000002
+   },
+   "audio_seconds": 4.65
+  },
+  {
+   "id": "correct_alafasy_murattal_1_5",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "1:5-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَءِييَااكَنَستَعِۦۦۦۦن",
+    "seconds": 0.8232766080000001
+   },
+   "correction": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَءِييَااكَنَستَعِۦۦۦۦن",
+    "seconds": 0.7668526480000001
+   },
+   "audio_seconds": 6.71
+  },
+  {
+   "id": "correct_alafasy_murattal_1_6",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "1:6-6",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:6"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:6"
+    ],
+    "issues": [],
+    "transcript": "ءِهدِنَصصِرَااطَلمُستَقِۦۦۦۦم",
+    "seconds": 0.625859077000001
+   },
+   "correction": {
+    "verses": [
+     "1:6"
+    ],
+    "issues": [],
+    "transcript": "ءِهدِنَصصِرَااطَلمُستَقِۦۦۦۦم",
+    "seconds": 0.7669889019999974
+   },
+   "audio_seconds": 5.59
+  },
+  {
+   "id": "correct_alafasy_murattal_1_7",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "1:7-7",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:7"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَعَلَيهِمغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦۦۦن",
+    "seconds": 1.4131180829999939
+   },
+   "correction": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَعَلَيهِمغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦۦۦن",
+    "seconds": 1.451309116999997
+   },
+   "audio_seconds": 13.19675
+  },
+  {
+   "id": "correct_alafasy_murattal_112_1",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "112:1-1",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:1"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:1"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇ",
+    "seconds": 0.4774238299999997
+   },
+   "correction": {
+    "verses": [
+     "112:1"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇ",
+    "seconds": 0.4227179279999982
+   },
+   "audio_seconds": 2.98
+  },
+  {
+   "id": "correct_alafasy_murattal_112_2",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "112:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:2"
+    ],
+    "issues": [],
+    "transcript": "ءَللَااهُصصَمَدڇ",
+    "seconds": 0.561287261999998
+   },
+   "correction": {
+    "verses": [
+     "112:2"
+    ],
+    "issues": [],
+    "transcript": "ءَللَااهُصصَمَدڇ",
+    "seconds": 0.5548365330000088
+   },
+   "audio_seconds": 2.53
+  },
+  {
+   "id": "correct_alafasy_murattal_112_3",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "112:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميَلِدڇوَلَميُۥۥلَدڇ",
+    "seconds": 0.5926871250000113
+   },
+   "correction": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميَلِدڇوَلَميُۥۥلَدڇ",
+    "seconds": 0.5381926200000017
+   },
+   "audio_seconds": 2.98
+  },
+  {
+   "id": "correct_alafasy_murattal_112_4",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "112:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 0.7110357979999972
+   },
+   "correction": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 0.6859051920000057
+   },
+   "audio_seconds": 4.807375
+  },
+  {
+   "id": "correct_alafasy_murattal_113_1",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "113:1-1",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:1"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇ",
+    "seconds": 0.5645515990000276
+   },
+   "correction": {
+    "verses": [
+     "113:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇ",
+    "seconds": 0.5438414849999826
+   },
+   "audio_seconds": 3.47
+  },
+  {
+   "id": "correct_alafasy_murattal_113_2",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "113:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِمَااخَلَقڇ",
+    "seconds": 0.6713458070000051
+   },
+   "correction": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِمَااخَلَقڇ",
+    "seconds": 0.9914728349999932
+   },
+   "audio_seconds": 3.63
+  },
+  {
+   "id": "correct_alafasy_murattal_113_3",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "113:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:3"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇ",
+    "seconds": 0.7375915439999954
+   },
+   "correction": {
+    "verses": [
+     "113:3"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇ",
+    "seconds": 0.6612325320000236
+   },
+   "audio_seconds": 5.04
+  },
+  {
+   "id": "correct_alafasy_murattal_113_4",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "113:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:4"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِننننَففَااثَااتِفِلعُقَدڇ",
+    "seconds": 0.7853605969999917
+   },
+   "correction": {
+    "verses": [
+     "113:4"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِننننَففَااثَااتِفِلعُقَدڇ",
+    "seconds": 0.7667643349999853
+   },
+   "audio_seconds": 6.01
+  },
+  {
+   "id": "correct_alafasy_murattal_113_5",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "113:5-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:5"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِحَااسِدِنءِذَااحَسَدڇ",
+    "seconds": 0.6805956559999904
+   },
+   "correction": {
+    "verses": [
+     "113:5"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِحَااسِدِنءِذَااحَسَدڇ",
+    "seconds": 0.7270592210000032
+   },
+   "audio_seconds": 5.6225
+  },
+  {
+   "id": "correct_alafasy_murattal_114_1",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "114:1-1",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:1"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااااس",
+    "seconds": 0.8585120560000068
+   },
+   "correction": {
+    "verses": [
+     "114:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااااس",
+    "seconds": 0.7150986150000245
+   },
+   "audio_seconds": 6.11
+  },
+  {
+   "id": "correct_alafasy_murattal_114_2",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "114:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:2"
+    ],
+    "issues": [],
+    "transcript": "مَلِكِننننَااس",
+    "seconds": 0.7939454589999805
+   },
+   "correction": {
+    "verses": [
+     "114:2"
+    ],
+    "issues": [],
+    "transcript": "مَلِكِننننَااس",
+    "seconds": 0.8281566710000042
+   },
+   "audio_seconds": 5.28
+  },
+  {
+   "id": "correct_alafasy_murattal_114_3",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "114:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:3"
+    ],
+    "issues": [],
+    "transcript": "ءِلَااهِننننَااااس",
+    "seconds": 0.9371643979999935
+   },
+   "correction": {
+    "verses": [
+     "114:3"
+    ],
+    "issues": [],
+    "transcript": "ءِلَااهِننننَااااس",
+    "seconds": 0.6543776479999942
+   },
+   "audio_seconds": 5.36
+  },
+  {
+   "id": "correct_alafasy_murattal_114_4",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "114:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلوَسوَااسِلخَننننَااااس",
+    "seconds": 0.9133903479999863
+   },
+   "correction": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلوَسوَااسِلخَننننَااااس",
+    "seconds": 0.9843976700000058
+   },
+   "audio_seconds": 7.99
+  },
+  {
+   "id": "correct_alafasy_murattal_114_5",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "114:5-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:5"
+    ],
+    "issues": [],
+    "transcript": "ءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااااس",
+    "seconds": 1.0066153039999772
+   },
+   "correction": {
+    "verses": [
+     "114:5"
+    ],
+    "issues": [],
+    "transcript": "ءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااااس",
+    "seconds": 0.8318685199999891
+   },
+   "audio_seconds": 7.92
+  },
+  {
+   "id": "correct_alafasy_murattal_114_6",
+   "category": "correct",
+   "reciter": "alafasy_murattal",
+   "passage": "114:6-6",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:6"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "مِنَلجِننننَتِوَننننَااااس",
+    "seconds": 0.9415664740000211
+   },
+   "correction": {
+    "verses": [
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "مِنَلجِننننَتِوَننننَااااس",
+    "seconds": 0.9602970669999776
+   },
+   "audio_seconds": 8.1965625
+  },
+  {
+   "id": "correct_minshawi_murattal_1_2",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "1:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.7055050810000103
+   },
+   "correction": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.7564211160000123
+   },
+   "audio_seconds": 5.8
+  },
+  {
+   "id": "correct_minshawi_murattal_1_3",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "1:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:3"
+    ],
+    "issues": [],
+    "transcript": "ءَررَحمَاانِررَحِۦۦم",
+    "seconds": 0.8726651520000014
+   },
+   "correction": {
+    "verses": [
+     "1:3"
+    ],
+    "issues": [],
+    "transcript": "ءَررَحمَاانِررَحِۦۦم",
+    "seconds": 0.5585745210000023
+   },
+   "audio_seconds": 4.44
+  },
+  {
+   "id": "correct_minshawi_murattal_1_4",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "1:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِيَومِددِۦۦن",
+    "seconds": 0.713935089000006
+   },
+   "correction": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِيَومِددِۦۦن",
+    "seconds": 0.5183784990000131
+   },
+   "audio_seconds": 4.23
+  },
+  {
+   "id": "correct_minshawi_murattal_1_5",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "1:5-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَءِييَااكَنَستَعِۦۦن",
+    "seconds": 0.6404856340000115
+   },
+   "correction": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَءِييَااكَنَستَعِۦۦن",
+    "seconds": 0.7283274329999986
+   },
+   "audio_seconds": 6.06
+  },
+  {
+   "id": "correct_minshawi_murattal_1_6",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "1:6-6",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:6"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:6"
+    ],
+    "issues": [],
+    "transcript": "ءِهدِنَصصِرَااطَلمُستَقِۦۦم",
+    "seconds": 0.6379751460000116
+   },
+   "correction": {
+    "verses": [
+     "1:6"
+    ],
+    "issues": [],
+    "transcript": "ءِهدِنَصصِرَااطَلمُستَقِۦۦم",
+    "seconds": 0.8168335810000135
+   },
+   "audio_seconds": 5.2
+  },
+  {
+   "id": "correct_minshawi_murattal_1_7",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "1:7-7",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:7"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَعَلَيهِمغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦن",
+    "seconds": 1.2871469320000033
+   },
+   "correction": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَعَلَيهِمغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦن",
+    "seconds": 1.3809013350000023
+   },
+   "audio_seconds": 13.1559375
+  },
+  {
+   "id": "correct_minshawi_murattal_112_1",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "112:1-1",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:1"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:1"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇ",
+    "seconds": 0.42609612699999705
+   },
+   "correction": {
+    "verses": [
+     "112:1"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇ",
+    "seconds": 0.5586071209999791
+   },
+   "audio_seconds": 3.4
+  },
+  {
+   "id": "correct_minshawi_murattal_112_2",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "112:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:2"
+    ],
+    "issues": [],
+    "transcript": "ءَللَااهُصصَمَدڇ",
+    "seconds": 0.4569534669999848
+   },
+   "correction": {
+    "verses": [
+     "112:2"
+    ],
+    "issues": [],
+    "transcript": "ءَللَااهُصصَمَدڇ",
+    "seconds": 0.46826194399999804
+   },
+   "audio_seconds": 2.66
+  },
+  {
+   "id": "correct_minshawi_murattal_112_3",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "112:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميَلِدڇوَلَميُۥۥلَدڇ",
+    "seconds": 0.4977568090000132
+   },
+   "correction": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميَلِدڇوَلَميُۥۥلَدڇ",
+    "seconds": 0.4786301809999859
+   },
+   "audio_seconds": 3.47
+  },
+  {
+   "id": "correct_minshawi_murattal_112_4",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "112:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 0.5484037810000009
+   },
+   "correction": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 0.542877610000025
+   },
+   "audio_seconds": 4.877625
+  },
+  {
+   "id": "correct_minshawi_murattal_113_1",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "113:1-1",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:1"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇ",
+    "seconds": 0.5748066059999983
+   },
+   "correction": {
+    "verses": [
+     "113:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇ",
+    "seconds": 0.6591838379999972
+   },
+   "audio_seconds": 4.05
+  },
+  {
+   "id": "correct_minshawi_murattal_113_2",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "113:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِمَااخَلَقڇ",
+    "seconds": 0.4733481659999816
+   },
+   "correction": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِمَااخَلَقڇ",
+    "seconds": 0.43006904800000484
+   },
+   "audio_seconds": 3.6
+  },
+  {
+   "id": "correct_minshawi_murattal_113_3",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "113:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:3"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇ",
+    "seconds": 0.7483084739999903
+   },
+   "correction": {
+    "verses": [
+     "113:3"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇ",
+    "seconds": 0.7299210650000023
+   },
+   "audio_seconds": 5.59
+  },
+  {
+   "id": "correct_minshawi_murattal_113_4",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "113:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:4"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِننننَففَااثَااتِفِلعُقَدڇ",
+    "seconds": 0.757446745000023
+   },
+   "correction": {
+    "verses": [
+     "113:4"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِننننَففَااثَااتِفِلعُقَدڇ",
+    "seconds": 0.6833415159999858
+   },
+   "audio_seconds": 6.58
+  },
+  {
+   "id": "correct_minshawi_murattal_113_5",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "113:5-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:5"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِحَااسِدِنءِذَااحَسَدڇ",
+    "seconds": 0.6167895290000015
+   },
+   "correction": {
+    "verses": [
+     "113:5"
+    ],
+    "issues": [],
+    "transcript": "وَمِںںںشَررِحَااسِدِنءِذَااحَسَدڇ",
+    "seconds": 0.6766756539999915
+   },
+   "audio_seconds": 5.4806875
+  },
+  {
+   "id": "correct_minshawi_murattal_114_1",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "114:1-1",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:1"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااس",
+    "seconds": 0.6694657949999965
+   },
+   "correction": {
+    "verses": [
+     "114:1"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااس",
+    "seconds": 0.6345847690000083
+   },
+   "audio_seconds": 4.75
+  },
+  {
+   "id": "correct_minshawi_murattal_114_2",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "114:2-2",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:2"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:2"
+    ],
+    "issues": [],
+    "transcript": "مَلِكِننننَااس",
+    "seconds": 0.6265399190000026
+   },
+   "correction": {
+    "verses": [
+     "114:2"
+    ],
+    "issues": [],
+    "transcript": "مَلِكِننننَااس",
+    "seconds": 0.8879524289999972
+   },
+   "audio_seconds": 2.98
+  },
+  {
+   "id": "correct_minshawi_murattal_114_3",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "114:3-3",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:3"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:3"
+    ],
+    "issues": [],
+    "transcript": "ءِلَااهِننننَااس",
+    "seconds": 0.6072072110000009
+   },
+   "correction": {
+    "verses": [
+     "114:3"
+    ],
+    "issues": [],
+    "transcript": "ءِلَااهِننننَااس",
+    "seconds": 0.5595848969999934
+   },
+   "audio_seconds": 3.06
+  },
+  {
+   "id": "correct_minshawi_murattal_114_4",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "114:4-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلوَسوَااسِلخَننننَااس",
+    "seconds": 0.9058356130000029
+   },
+   "correction": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلوَسوَااسِلخَننننَااس",
+    "seconds": 0.6165208260000218
+   },
+   "audio_seconds": 5.69
+  },
+  {
+   "id": "correct_minshawi_murattal_114_5",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "114:5-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:5"
+    ],
+    "issues": [],
+    "transcript": "ءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااس",
+    "seconds": 0.7721561549999751
+   },
+   "correction": {
+    "verses": [
+     "114:5"
+    ],
+    "issues": [],
+    "transcript": "ءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااس",
+    "seconds": 0.7952898559999885
+   },
+   "audio_seconds": 6.24
+  },
+  {
+   "id": "correct_minshawi_murattal_114_6",
+   "category": "correct",
+   "reciter": "minshawi_murattal",
+   "passage": "114:6-6",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:6"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "مِنَلجِننننَتِوَننننَااس",
+    "seconds": 0.6262912050000159
+   },
+   "correction": {
+    "verses": [
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "مِنَلجِننننَتِوَننننَااس",
+    "seconds": 0.604800670000026
+   },
+   "audio_seconds": 4.8533125
+  },
+  {
+   "id": "omit_1_2_w1",
+   "category": "word_omission",
+   "reciter": "husary_murattal",
+   "passage": "1:2-2",
+   "label": {
+    "errors": [
+     {
+      "kind": "omission",
+      "word": 1
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:2"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُرَببِلعَاالَمِۦۦن",
+    "seconds": 0.6280799090000219
+   },
+   "correction": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُرَببِلعَاالَمِۦۦن",
+    "seconds": 0.6697762619999703
+   },
+   "audio_seconds": 5.47
+  },
+  {
+   "id": "repeat_1_2_w1",
+   "category": "word_repetition",
+   "reciter": "husary_murattal",
+   "passage": "1:2-2",
+   "label": {
+    "errors": [
+     {
+      "kind": "repetition",
+      "word": 1
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:2"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.9452995150000206
+   },
+   "correction": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.7945046080000465
+   },
+   "audio_seconds": 7.23
+  },
+  {
+   "id": "subst_1_2_w1",
+   "category": "word_substitution",
+   "reciter": "husary_murattal",
+   "passage": "1:2-2",
+   "label": {
+    "errors": [
+     {
+      "kind": "substitution",
+      "word": 1,
+      "replaced_by_word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:2"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُرَببِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.7062405940000317
+   },
+   "correction": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [
+     {
+      "kind": "possible_substitution",
+      "surah": 1,
+      "ayah": 2,
+      "word": 1,
+      "wordIndex": 5
+     }
+    ],
+    "transcript": "ءَلحَمدُرَببِرَببِلعَاالَمِ",
+    "seconds": 0.6167331140000024
+   },
+   "audio_seconds": 6.03
+  },
+  {
+   "id": "omit_1_4_w1",
+   "category": "word_omission",
+   "reciter": "husary_murattal",
+   "passage": "1:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "omission",
+      "word": 1
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:4"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِددِۦۦن",
+    "seconds": 0.4525561790000065
+   },
+   "correction": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِددِۦۦن",
+    "seconds": 0.6301645170000265
+   },
+   "audio_seconds": 4.05
+  },
+  {
+   "id": "repeat_1_4_w1",
+   "category": "word_repetition",
+   "reciter": "husary_murattal",
+   "passage": "1:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "repetition",
+      "word": 1
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:4"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِيَومِيَومِددِۦۦن",
+    "seconds": 0.6544226449999841
+   },
+   "correction": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِيَومِيَومِددِۦۦن",
+    "seconds": 0.6784219340000418
+   },
+   "audio_seconds": 5.35
+  },
+  {
+   "id": "subst_1_4_w1",
+   "category": "word_substitution",
+   "reciter": "husary_murattal",
+   "passage": "1:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "substitution",
+      "word": 1,
+      "replaced_by_word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:4"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِددِۦۦنددِۦۦن",
+    "seconds": 0.7334189529999858
+   },
+   "correction": {
+    "verses": [
+     "1:4"
+    ],
+    "issues": [],
+    "transcript": "مَاالِكِددِۦۦنددِۦۦن",
+    "seconds": 0.9144771279999986
+   },
+   "audio_seconds": 7.05
+  },
+  {
+   "id": "omit_1_5_w2",
+   "category": "word_omission",
+   "reciter": "husary_murattal",
+   "passage": "1:5-5",
+   "label": {
+    "errors": [
+     {
+      "kind": "omission",
+      "word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:5"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَستَعِۦۦن",
+    "seconds": 0.6455932969999849
+   },
+   "correction": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [
+     {
+      "kind": "possible_omission",
+      "surah": 1,
+      "ayah": 5,
+      "word": 2,
+      "wordIndex": 15,
+      "source": "similar_verse"
+     }
+    ],
+    "transcript": "ءِييَااكَنَعبُدُوَستَعِۦۦن",
+    "seconds": 0.8504463849999593
+   },
+   "audio_seconds": 5.65
+  },
+  {
+   "id": "repeat_1_5_w2",
+   "category": "word_repetition",
+   "reciter": "husary_murattal",
+   "passage": "1:5-5",
+   "label": {
+    "errors": [
+     {
+      "kind": "repetition",
+      "word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:5"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَءِييَااكَنَءِييَااكَنَستَعِۦۦۦۦن",
+    "seconds": 1.3927048149999464
+   },
+   "correction": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَءِييَااكَنَءِييَااكَنَستَعِۦۦۦۦن",
+    "seconds": 1.0346106900000014
+   },
+   "audio_seconds": 8.19
+  },
+  {
+   "id": "subst_1_5_w2",
+   "category": "word_substitution",
+   "reciter": "husary_murattal",
+   "passage": "1:5-5",
+   "label": {
+    "errors": [
+     {
+      "kind": "substitution",
+      "word": 2,
+      "replaced_by_word": 3
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:5"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَستَعِۦۦنلَستَعِۦۦن",
+    "seconds": 1.072027031000005
+   },
+   "correction": {
+    "verses": [
+     "1:5"
+    ],
+    "issues": [],
+    "transcript": "ءِييَااكَنَعبُدُوَستَعِۦۦنلَستَعِۦۦن",
+    "seconds": 0.8673107580000069
+   },
+   "audio_seconds": 9.02
+  },
+  {
+   "id": "omit_1_7_w3",
+   "category": "word_omission",
+   "reciter": "husary_murattal",
+   "passage": "1:7-7",
+   "label": {
+    "errors": [
+     {
+      "kind": "omission",
+      "word": 3
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:7"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦن",
+    "seconds": 1.5249324229999912
+   },
+   "correction": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [
+     {
+      "kind": "possible_omission",
+      "surah": 1,
+      "ayah": 7,
+      "word": 3,
+      "wordIndex": 23
+     }
+    ],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَغَيرِلمَغضُۥۥبِعَ",
+    "seconds": 0.6862748069999507
+   },
+   "audio_seconds": 13.8958125
+  },
+  {
+   "id": "repeat_1_7_w3",
+   "category": "word_repetition",
+   "reciter": "husary_murattal",
+   "passage": "1:7-7",
+   "label": {
+    "errors": [
+     {
+      "kind": "repetition",
+      "word": 3
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:7"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَعَلَيهِمعَلَيهِمغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦن",
+    "seconds": 1.7536581390000066
+   },
+   "correction": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَعَلَيهِمعَلَيهِمغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦن",
+    "seconds": 1.6405910910000094
+   },
+   "audio_seconds": 16.0158125
+  },
+  {
+   "id": "subst_1_7_w3",
+   "category": "word_substitution",
+   "reciter": "husary_murattal",
+   "passage": "1:7-7",
+   "label": {
+    "errors": [
+     {
+      "kind": "substitution",
+      "word": 3,
+      "replaced_by_word": 4
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "1:7"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَغَيرِغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦن",
+    "seconds": 1.343283030999999
+   },
+   "correction": {
+    "verses": [
+     "1:7"
+    ],
+    "issues": [],
+    "transcript": "صِرَااطَللَذِۦۦنَءَنعَمتَغَيرِغَيرِلمَغضُۥۥبِعَلَيهِموَلَضضَااااااللِۦۦن",
+    "seconds": 1.3607558379999827
+   },
+   "audio_seconds": 14.6258125
+  },
+  {
+   "id": "omit_112_3_w1",
+   "category": "word_omission",
+   "reciter": "husary_murattal",
+   "passage": "112:3-3",
+   "label": {
+    "errors": [
+     {
+      "kind": "omission",
+      "word": 1
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:3"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميُوَلَميُۥۥلَدڇ",
+    "seconds": 0.6171095100000384
+   },
+   "correction": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [
+     {
+      "kind": "possible_substitution",
+      "surah": 112,
+      "ayah": 3,
+      "word": 1,
+      "wordIndex": 77382
+     }
+    ],
+    "transcript": "لَميُوَلَميُۥۥلَدڇ",
+    "seconds": 0.45034345800004666
+   },
+   "audio_seconds": 4.98
+  },
+  {
+   "id": "repeat_112_3_w1",
+   "category": "word_repetition",
+   "reciter": "husary_murattal",
+   "passage": "112:3-3",
+   "label": {
+    "errors": [
+     {
+      "kind": "repetition",
+      "word": 1
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:3"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميَلِدڇوَلِدڇوَلَميُۥۥلَدڇ",
+    "seconds": 1.1182684219999937
+   },
+   "correction": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميَلِدڇوَلِدڇوَلَميُۥۥلَدڇ",
+    "seconds": 0.924424433999986
+   },
+   "audio_seconds": 7.04
+  },
+  {
+   "id": "subst_112_3_w1",
+   "category": "word_substitution",
+   "reciter": "husary_murattal",
+   "passage": "112:3-3",
+   "label": {
+    "errors": [
+     {
+      "kind": "substitution",
+      "word": 1,
+      "replaced_by_word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:3"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [],
+    "transcript": "لَميُوَلَميُوَلَميُۥۥلَدڇ",
+    "seconds": 0.8623944810000248
+   },
+   "correction": {
+    "verses": [
+     "112:3"
+    ],
+    "issues": [
+     {
+      "kind": "possible_substitution",
+      "surah": 112,
+      "ayah": 3,
+      "word": 1,
+      "wordIndex": 77382
+     }
+    ],
+    "transcript": "لَميُوَلَميُوَلَميُۥۥلَدڇ",
+    "seconds": 0.6286373559999628
+   },
+   "audio_seconds": 6.37
+  },
+  {
+   "id": "omit_112_4_w2",
+   "category": "word_omission",
+   "reciter": "husary_murattal",
+   "passage": "112:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "omission",
+      "word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:4"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُطڇفُوَنءَحَدڇ",
+    "seconds": 0.837141592000029
+   },
+   "correction": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُطڇفُوَنءَحَدڇ",
+    "seconds": 0.6354280840000137
+   },
+   "audio_seconds": 6.5560625
+  },
+  {
+   "id": "repeat_112_4_w2",
+   "category": "word_repetition",
+   "reciter": "husary_murattal",
+   "passage": "112:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "repetition",
+      "word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:4"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُللَهُۥۥللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 1.2793469789999654
+   },
+   "correction": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُللَهُۥۥللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 1.0012079319999903
+   },
+   "audio_seconds": 9.7000625
+  },
+  {
+   "id": "subst_112_4_w2",
+   "category": "word_substitution",
+   "reciter": "husary_murattal",
+   "passage": "112:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "substitution",
+      "word": 2,
+      "replaced_by_word": 3
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:4"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "وَلَميَكُطڇفُوَنكُفُوَنءَحَدڇ",
+    "seconds": 0.9140088560000295
+   },
+   "correction": {
+    "verses": [
+     "112:4"
+    ],
+    "issues": [
+     {
+      "kind": "possible_substitution",
+      "surah": 112,
+      "ayah": 4,
+      "word": 2,
+      "wordIndex": 77387
+     }
+    ],
+    "transcript": "وَلَميَكُطڇفُوَنكُفُوَنءَحَدڇ",
+    "seconds": 0.9417823070000159
+   },
+   "audio_seconds": 8.3160625
+  },
+  {
+   "id": "omit_113_2_w1",
+   "category": "word_omission",
+   "reciter": "husary_murattal",
+   "passage": "113:2-2",
+   "label": {
+    "errors": [
+     {
+      "kind": "omission",
+      "word": 1
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:2"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَااخَلَقڇ",
+    "seconds": 0.5718664850000059
+   },
+   "correction": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَااخَلَقڇ",
+    "seconds": 0.563978470000031
+   },
+   "audio_seconds": 4.31
+  },
+  {
+   "id": "repeat_113_2_w1",
+   "category": "word_repetition",
+   "reciter": "husary_murattal",
+   "passage": "113:2-2",
+   "label": {
+    "errors": [
+     {
+      "kind": "repetition",
+      "word": 1
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:2"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِشَررِمَااخَلَقڇ",
+    "seconds": 0.8284064859999926
+   },
+   "correction": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِشَررِمَااخَلَقڇ",
+    "seconds": 0.9771173549999949
+   },
+   "audio_seconds": 6.77
+  },
+  {
+   "id": "subst_113_2_w1",
+   "category": "word_substitution",
+   "reciter": "husary_murattal",
+   "passage": "113:2-2",
+   "label": {
+    "errors": [
+     {
+      "kind": "substitution",
+      "word": 1,
+      "replaced_by_word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:2"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَاامَااخَلَقڇ",
+    "seconds": 0.6882678580000066
+   },
+   "correction": {
+    "verses": [
+     "113:2"
+    ],
+    "issues": [
+     {
+      "kind": "possible_substitution",
+      "surah": 113,
+      "ayah": 2,
+      "word": 1,
+      "wordIndex": 77395
+     }
+    ],
+    "transcript": "مِںںںشَاامَااخَلَقڇ",
+    "seconds": 0.44404636999999636
+   },
+   "audio_seconds": 5.11
+  },
+  {
+   "id": "omit_114_4_w2",
+   "category": "word_omission",
+   "reciter": "husary_murattal",
+   "passage": "114:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "omission",
+      "word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:4"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلخَننننَااس",
+    "seconds": 0.7488090950000332
+   },
+   "correction": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [
+     {
+      "kind": "possible_omission",
+      "surah": 114,
+      "ayah": 4,
+      "word": 2,
+      "wordIndex": 77423,
+      "source": "similar_verse"
+     }
+    ],
+    "transcript": "مِںںںشَررِلخَننننَااس",
+    "seconds": 0.9534080909999902
+   },
+   "audio_seconds": 7.15
+  },
+  {
+   "id": "repeat_114_4_w2",
+   "category": "word_repetition",
+   "reciter": "husary_murattal",
+   "passage": "114:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "repetition",
+      "word": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:4"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلوَسوَااسِلوَسوَااسِلخَننننَااس",
+    "seconds": 1.2798371740000438
+   },
+   "correction": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلوَسوَااسِلوَسوَااسِلخَننننَااس",
+    "seconds": 1.1414472910000477
+   },
+   "audio_seconds": 11.87
+  },
+  {
+   "id": "subst_114_4_w2",
+   "category": "word_substitution",
+   "reciter": "husary_murattal",
+   "passage": "114:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "substitution",
+      "word": 2,
+      "replaced_by_word": 3
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:4"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلخَننننَااسلخَننننَااس",
+    "seconds": 1.4917450769999996
+   },
+   "correction": {
+    "verses": [
+     "114:4"
+    ],
+    "issues": [],
+    "transcript": "مِںںںشَررِلخَننننَااسلخَننننَااس",
+    "seconds": 1.1297701600000145
+   },
+   "audio_seconds": 11.8
+  },
+  {
+   "id": "ayah_omit_112_1-4_skip3",
+   "category": "ayah_omission",
+   "reciter": "husary_murattal",
+   "passage": "112:1-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "ayah_omission",
+      "aya": 3
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:1",
+     "112:2"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "112:1",
+     "112:2"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇءَللَااهُصصَمَدڇوَلَميَكُللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 1.8951649809999507
+   },
+   "correction": {
+    "verses": [
+     "112:1",
+     "112:2"
+    ],
+    "issues": [
+     {
+      "kind": "possible_skipped_ayah",
+      "surah": 112,
+      "ayah": 3,
+      "word": 0,
+      "wordIndex": 77381,
+      "words": 4
+     }
+    ],
+    "transcript": "قُلهُوَللَااهُءَحَدڇءَللَااهُصصَمَدڇوَلَميَكُللَهُ",
+    "seconds": 1.5497974720000056
+   },
+   "audio_seconds": 19.1480625
+  },
+  {
+   "id": "correct_multi_112_1-4",
+   "category": "correct_multi",
+   "reciter": "husary_murattal",
+   "passage": "112:1-4",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "112:1",
+     "112:2",
+     "112:3",
+     "112:4"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "112:1",
+     "112:2",
+     "112:3",
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇءَللَااهُصصَمَدڇلَميَلِدڇوَلَميُۥۥلَدڇوَلَميَكُللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 2.5702201219999696
+   },
+   "correction": {
+    "verses": [
+     "112:1",
+     "112:2",
+     "112:3",
+     "112:4"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇءَللَااهُصصَمَدڇلَميَلِدڇوَلَميُۥۥلَدڇوَلَميَكُللَهُۥۥكُفُوَنءَحَدڇ",
+    "seconds": 2.471108582999965
+   },
+   "audio_seconds": 25.1580625
+  },
+  {
+   "id": "ayah_omit_113_1-5_skip4",
+   "category": "ayah_omission",
+   "reciter": "husary_murattal",
+   "passage": "113:1-5",
+   "label": {
+    "errors": [
+     {
+      "kind": "ayah_omission",
+      "aya": 4
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:1",
+     "113:2",
+     "113:3"
+    ],
+    "n_issues": 1,
+    "detected": true,
+    "location_correct": true
+   },
+   "tracking": {
+    "verses": [
+     "113:1",
+     "113:2",
+     "113:3"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇمِںںںشَررِمَااخَلَقڇوَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇوَمِںںںشَررِحَااسِدِنءِذَااحَسَدڇ",
+    "seconds": 3.0782549230000003
+   },
+   "correction": {
+    "verses": [
+     "113:1",
+     "113:2",
+     "113:3"
+    ],
+    "issues": [
+     {
+      "kind": "possible_skipped_ayah",
+      "surah": 113,
+      "ayah": 4,
+      "word": 0,
+      "wordIndex": 77403,
+      "words": 5
+     }
+    ],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇمِںںںشَررِمَااخَلَقڇوَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇوَمِںںںشَررِحَااسِ",
+    "seconds": 2.3202151890000096
+   },
+   "audio_seconds": 27.4041875
+  },
+  {
+   "id": "correct_multi_113_1-5",
+   "category": "correct_multi",
+   "reciter": "husary_murattal",
+   "passage": "113:1-5",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "113:1",
+     "113:2",
+     "113:3",
+     "113:4",
+     "113:5"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "113:1",
+     "113:2",
+     "113:3",
+     "113:4",
+     "113:5"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇمِںںںشَررِمَااخَلَقڇوَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇوَمِںںںشَررِننننَففَااثَااتِفِلعُقَدڇوَمِںںںشَررِحَااسِدِنءِذَااحَسَدڇ",
+    "seconds": 4.128604869000031
+   },
+   "correction": {
+    "verses": [
+     "113:1",
+     "113:2",
+     "113:3",
+     "113:4",
+     "113:5"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِلفَلَقڇمِںںںشَررِمَااخَلَقڇوَمِںںںشَررِغَااسِقِنءِذَااوَقَبڇوَمِںںںشَررِننننَففَااثَااتِفِلعُقَدڇوَمِںںںشَررِحَااسِدِنءِذَااحَسَدڇ",
+    "seconds": 3.429016295999987
+   },
+   "audio_seconds": 36.7041875
+  },
+  {
+   "id": "ayah_omit_114_1-6_skip2",
+   "category": "ayah_omission",
+   "reciter": "husary_murattal",
+   "passage": "114:1-6",
+   "label": {
+    "errors": [
+     {
+      "kind": "ayah_omission",
+      "aya": 2
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:1",
+     "114:2",
+     "114:3",
+     "114:4",
+     "114:5",
+     "114:6"
+    ],
+    "n_issues": 0,
+    "detected": false,
+    "location_correct": false
+   },
+   "tracking": {
+    "verses": [
+     "114:1",
+     "114:2",
+     "114:3",
+     "114:4",
+     "114:5",
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااسءِلَااهِننننَااسمِںںںشَررِلوَسوَااسِلخَننننَااسءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااسمِنَلجِننننَتِوَننننَااس",
+    "seconds": 4.111795137000037
+   },
+   "correction": {
+    "verses": [
+     "114:1",
+     "114:2",
+     "114:3",
+     "114:4",
+     "114:5",
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااسءِلَااهِننننَااسمِںںںشَررِلوَسوَااسِلخَننننَااسءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااسمِنَلجِننننَتِوَننننَااس",
+    "seconds": 3.7616008760000113
+   },
+   "audio_seconds": 41.5895
+  },
+  {
+   "id": "correct_multi_114_1-6",
+   "category": "correct_multi",
+   "reciter": "husary_murattal",
+   "passage": "114:1-6",
+   "label": {
+    "errors": []
+   },
+   "score": {
+    "verse_id_correct": true,
+    "verses_tracked": [
+     "114:1",
+     "114:2",
+     "114:3",
+     "114:4",
+     "114:5",
+     "114:6"
+    ],
+    "n_issues": 0,
+    "false_alerts": 0
+   },
+   "tracking": {
+    "verses": [
+     "114:1",
+     "114:2",
+     "114:3",
+     "114:4",
+     "114:5",
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااسمَلِكِننننَااسءِلَااهِننننَااسمِںںںشَررِلوَسوَااسِلخَننننَااسءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااسمِنَلجِننننَتِوَننننَااس",
+    "seconds": 4.758776676999987
+   },
+   "correction": {
+    "verses": [
+     "114:1",
+     "114:2",
+     "114:3",
+     "114:4",
+     "114:5",
+     "114:6"
+    ],
+    "issues": [],
+    "transcript": "قُلءَعُۥۥذُبِرَببِننننَااسمَلِكِننننَااسءِلَااهِننننَااسمِںںںشَررِلوَسوَااسِلخَننننَااسءَللَذِۦۦيُوَسوِسُفِۦۦصُدُۥۥرِننننَااسمِنَلجِننننَتِوَننننَااس",
+    "seconds": 4.0973319460000495
+   },
+   "audio_seconds": 46.3695
+  },
+  {
+   "id": "wrong_passage_said112_1_ref113_1",
+   "category": "wrong_passage",
+   "reciter": "husary_murattal",
+   "passage": "113:1-1",
+   "label": {
+    "errors": [
+     {
+      "kind": "wrong_passage",
+      "actual": "112:1"
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": false,
+    "verses_tracked": [
+     "112:1"
+    ],
+    "n_issues": 0,
+    "flagged_or_unmatched": true
+   },
+   "tracking": {
+    "verses": [
+     "112:1"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇ",
+    "seconds": 0.8600417420000304
+   },
+   "correction": {
+    "verses": [
+     "112:1"
+    ],
+    "issues": [],
+    "transcript": "قُلهُوَللَااهُءَحَدڇ",
+    "seconds": 0.884147100000002
+   },
+   "audio_seconds": 5.9
+  },
+  {
+   "id": "wrong_passage_said1_2_ref1_4",
+   "category": "wrong_passage",
+   "reciter": "husary_murattal",
+   "passage": "1:4-4",
+   "label": {
+    "errors": [
+     {
+      "kind": "wrong_passage",
+      "actual": "1:2"
+     }
+    ]
+   },
+   "score": {
+    "verse_id_correct": false,
+    "verses_tracked": [
+     "1:2"
+    ],
+    "n_issues": 0,
+    "flagged_or_unmatched": true
+   },
+   "tracking": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.8189868019999703
+   },
+   "correction": {
+    "verses": [
+     "1:2"
+    ],
+    "issues": [],
+    "transcript": "ءَلحَمدُلِللَااهِرَببِلعَاالَمِۦۦن",
+    "seconds": 0.7428612799999537
+   },
+   "audio_seconds": 6.35
+  }
+ ]
+}

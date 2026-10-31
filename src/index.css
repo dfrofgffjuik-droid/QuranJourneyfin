@@ -1,0 +1,641 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap');
+@import 'tailwindcss';
+
+/* Quran text font, self-hosted (SIL OFL 1.1, see public/fonts/OFL-AmiriQuran.txt)
+   so the mushaf renders offline and without third-party requests. */
+@font-face {
+  font-family: 'Rafiqi Quran';
+  src: url('/fonts/AmiriQuran-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+/* Reading face: KFGQPC Uthmanic Script HAFS (King Fahd Glorious Quran Printing
+   Complex), Madinah mushaf style. Distributed unmodified under the KFGQPC EULA
+   (public/fonts/KFGQPC-HAFS-LICENSE.txt). It is only used with the matching
+   KFGQPC Hafs text (public/quran-hafs); Tanzil text keeps Amiri Quran. */
+@font-face {
+  font-family: 'Rafiqi Hafs';
+  src: url('/fonts/UthmanicHafs-V18.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@theme {
+  /* Product palette: Sakina (calm mist, soft white cards, garden green).
+     Token names are semantic: night = primary ink, parchment = page,
+     gold = accent. Night mode re-maps them below. */
+  --color-night: #13211a;
+  --color-night-2: #24402f;
+  --color-parchment: #eef2f5;
+  --color-card: #ffffff;
+  --color-line: #e2e7ec;
+  --color-gold: #2f7d4f;
+  --color-gold-soft: #dcefe2;
+  --color-sage: #5f8f6c;
+  --color-leaf: #2f9e5b;
+  --color-clay: #cf5b45;
+  --color-sky: #2a7bb6;
+  --color-muted: #6b7682;
+
+  /* Kids Mode tiles */
+  --color-kid-1: #e3f1e4;
+  --color-kid-2: #f8ead0;
+  --color-kid-3: #e1edf6;
+  --color-kid-4: #f7e3da;
+  --color-kid-5: #ece5f6;
+  --color-kid-bg: #fbf5e8;
+
+  --color-paper: #f3efe6;
+  --color-sheet: #fbf9f4;
+  --color-ink: #1d1b17;
+  --color-rule: #d9d2c3;
+  --color-moss: #3e6b55;
+  --color-amber: #b86a12;
+  --color-violet: #5a4bb0;
+  --color-alert: #a23b2a;
+
+  --font-sans: 'IBM Plex Sans Arabic', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-arabic-display: 'IBM Plex Sans Arabic', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-quran: 'Rafiqi Quran', 'Amiri Quran', 'Noto Naskh Arabic', serif;
+  --font-hafs: 'Rafiqi Hafs', 'Rafiqi Quran', 'Amiri Quran', serif;
+  --font-naskh: 'Noto Naskh Arabic', 'Amiri Quran', serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-parchment);
+    color: var(--color-night);
+  }
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-moss);
+    outline-offset: 2px;
+  }
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+/* Night mode. Kids Mode always stays in the daytime palette (see lib/theme). */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-night: #e7efe9;
+  --color-night-2: #cfdcd3;
+  --color-parchment: #0d1411;
+  --color-card: #151f1a;
+  --color-line: #26342c;
+  --color-gold: #2f9a5f;
+  --color-gold-soft: #1b3727;
+  --color-sage: #7fb08d;
+  --color-leaf: #4cc27f;
+  --color-clay: #ec846c;
+  --color-sky: #6aaee0;
+  --color-muted: #8e9b94;
+}
+
+/* Warm, low-glare Quran text at night. */
+:root[data-theme='dark'] .mushaf {
+  color: #efe6d2;
+}
+
+/* Display headings use the UI face at a confident weight (utilities can override). */
+@layer components {
+  .font-arabic-display {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+}
+
+.phon {
+  font-family: var(--font-naskh);
+  letter-spacing: 0.08em;
+  word-break: break-all;
+}
+
+/* KFGQPC Hafs text: Madinah mushaf look (only with the KFGQPC Hafs edition). */
+.mushaf.hafs,
+.hafs {
+  font-family: var(--font-hafs);
+  line-height: 2.05;
+  word-spacing: 0;
+}
+
+/* Quran text: generous line height so harakat never collide */
+.mushaf {
+  font-family: var(--font-quran);
+  line-height: 2.35;
+  word-spacing: 0.06em;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Atmosphere tokens (hero + page canvas). Garden is the default; each
+   palette below re-maps them together with the accent colours. */
+:root {
+  --hero-a: #24503a;
+  --hero-b: #33634a;
+  --hero-c: #5d8b6c;
+  --hero-d: #a9c3b1;
+  --hero-ink: #10241a;
+  --hero-ink-2: #1b3a29;
+  --hero-gold: #2f7d4f;
+  --hero-gold-soft: #cfe6d6;
+  --hero-glow: rgba(255, 255, 255, 0.16);
+  --bd-glow: rgba(47, 125, 79, 0.25);
+  --bd-top: #bfd1c3;
+  --bd-mid: #dce6df;
+}
+:root[data-theme='dark'] {
+  --hero-a: #17402c;
+  --hero-b: #143423;
+  --hero-c: #10261b;
+  --hero-glow: rgba(92, 197, 138, 0.14);
+  --bd-glow: rgba(76, 194, 127, 0.13);
+  --bd-top: #183326;
+  --bd-mid: #111f18;
+}
+
+/* Sea: calm deep blue */
+:root[data-palette='sea'] {
+  --color-night: #111d29;
+  --color-night-2: #233a52;
+  --color-parchment: #edf2f7;
+  --color-line: #dfe6ee;
+  --color-gold: #2563a8;
+  --color-gold-soft: #dbe8f6;
+  --color-sage: #5a7fa3;
+  --color-moss: #2f5f8f;
+  --hero-a: #1f4670;
+  --hero-b: #2c5c8a;
+  --hero-c: #5a86ad;
+  --hero-d: #a9c1d8;
+  --hero-ink: #0f1f33;
+  --hero-ink-2: #1a3250;
+  --hero-gold: #2563a8;
+  --hero-gold-soft: #d3e3f4;
+  --bd-glow: rgba(37, 99, 168, 0.22);
+  --bd-top: #c3d3e4;
+  --bd-mid: #dde6ef;
+}
+:root[data-theme='dark'][data-palette='sea'] {
+  --color-night: #e6edf5;
+  --color-night-2: #cdd8e4;
+  --color-parchment: #0c1219;
+  --color-card: #131c26;
+  --color-line: #243242;
+  --color-gold: #3d86d1;
+  --color-gold-soft: #172a40;
+  --color-sage: #7fa6cc;
+  --color-muted: #8d99a6;
+  --hero-a: #17324f;
+  --hero-b: #132a42;
+  --hero-c: #0f1f31;
+  --hero-glow: rgba(90, 160, 230, 0.14);
+  --bd-glow: rgba(90, 160, 230, 0.13);
+  --bd-top: #172a3d;
+  --bd-mid: #101a25;
+}
+
+/* Dusk: indigo and lilac */
+:root[data-palette='dusk'] {
+  --color-night: #1a1533;
+  --color-night-2: #2f2857;
+  --color-parchment: #f1f0f6;
+  --color-line: #e4e2ee;
+  --color-gold: #5b4bb5;
+  --color-gold-soft: #e6e2f6;
+  --color-sage: #7f74b8;
+  --color-moss: #5246a0;
+  --hero-a: #352a6b;
+  --hero-b: #463a85;
+  --hero-c: #7469ac;
+  --hero-d: #bcb5da;
+  --hero-ink: #1a1533;
+  --hero-ink-2: #2b2456;
+  --hero-gold: #5b4bb5;
+  --hero-gold-soft: #e1dcf4;
+  --bd-glow: rgba(91, 75, 181, 0.22);
+  --bd-top: #d0cbe6;
+  --bd-mid: #e3e0f0;
+}
+:root[data-theme='dark'][data-palette='dusk'] {
+  --color-night: #ece9f6;
+  --color-night-2: #d6d1ea;
+  --color-parchment: #100e18;
+  --color-card: #18152a;
+  --color-line: #2a2640;
+  --color-gold: #7f6fdc;
+  --color-gold-soft: #241f44;
+  --color-sage: #a49be0;
+  --color-muted: #9792ab;
+  --hero-a: #2b2456;
+  --hero-b: #221d45;
+  --hero-c: #191533;
+  --hero-glow: rgba(150, 130, 240, 0.15);
+  --bd-glow: rgba(140, 120, 240, 0.14);
+  --bd-top: #221d3d;
+  --bd-mid: #15122a;
+}
+
+/* Sand: warm desert amber */
+:root[data-palette='sand'] {
+  --color-night: #2a1a0e;
+  --color-night-2: #4a3220;
+  --color-parchment: #f5f1ea;
+  --color-line: #ebe3d6;
+  --color-gold: #b0642a;
+  --color-gold-soft: #f6e6d5;
+  --color-sage: #b08a5e;
+  --color-moss: #9a5a28;
+  --hero-a: #6b3b1c;
+  --hero-b: #84502a;
+  --hero-c: #b08257;
+  --hero-d: #dcc7ae;
+  --hero-ink: #2a1a0e;
+  --hero-ink-2: #4a2d17;
+  --hero-gold: #b0642a;
+  --hero-gold-soft: #f3e0cb;
+  --bd-glow: rgba(176, 100, 42, 0.22);
+  --bd-top: #e4d2bd;
+  --bd-mid: #eee4d7;
+}
+:root[data-theme='dark'][data-palette='sand'] {
+  --color-night: #f2eadf;
+  --color-night-2: #e0d3c2;
+  --color-parchment: #14100b;
+  --color-card: #1d1711;
+  --color-line: #33291e;
+  --color-gold: #d0843f;
+  --color-gold-soft: #3a2615;
+  --color-sage: #c9a27a;
+  --color-muted: #a39886;
+  --hero-a: #4a2d17;
+  --hero-b: #3a2414;
+  --hero-c: #281a0f;
+  --hero-glow: rgba(230, 160, 90, 0.13);
+  --bd-glow: rgba(220, 150, 80, 0.12);
+  --bd-top: #33251a;
+  --bd-mid: #1b1510;
+}
+
+/* Rose: soft rosewater */
+:root[data-palette='rose'] {
+  --color-night: #2c1119;
+  --color-night-2: #4c2432;
+  --color-parchment: #f6eff1;
+  --color-line: #ede1e5;
+  --color-gold: #b0456a;
+  --color-gold-soft: #f6dfe7;
+  --color-sage: #b77f92;
+  --color-moss: #9a3a5c;
+  --hero-a: #6a2540;
+  --hero-b: #843352;
+  --hero-c: #b0687f;
+  --hero-d: #dcb7c3;
+  --hero-ink: #2c1119;
+  --hero-ink-2: #4c1d2f;
+  --hero-gold: #b0456a;
+  --hero-gold-soft: #f3d8e2;
+  --bd-glow: rgba(176, 69, 106, 0.2);
+  --bd-top: #e6cdd5;
+  --bd-mid: #efe1e5;
+}
+:root[data-theme='dark'][data-palette='rose'] {
+  --color-night: #f5e8ec;
+  --color-night-2: #e5cfd6;
+  --color-parchment: #150d10;
+  --color-card: #1f1418;
+  --color-line: #36252b;
+  --color-gold: #d0648a;
+  --color-gold-soft: #3d1a28;
+  --color-sage: #cf93a7;
+  --color-muted: #a8939a;
+  --hero-a: #4c1d2f;
+  --hero-b: #3b1725;
+  --hero-c: #2a111b;
+  --hero-glow: rgba(235, 120, 160, 0.13);
+  --bd-glow: rgba(230, 110, 150, 0.12);
+  --bd-top: #351b25;
+  --bd-mid: #1c1015;
+}
+
+/* Kids Mode: warmer, playful paper by day; a soft, low-glare night. */
+:root[data-kids] {
+  --color-parchment: #fdf8ee;
+  --color-line: #efe4cc;
+}
+:root[data-theme='dark'][data-kids] {
+  --color-parchment: #10181c;
+  --color-card: #18232a;
+  --color-line: #2a3840;
+  --color-night: #f1ece0;
+  --color-muted: #a3aaa3;
+  --color-kid-1: #1c3328;
+  --color-kid-2: #36301f;
+  --color-kid-3: #1c2d3a;
+  --color-kid-4: #382723;
+  --color-kid-5: #2b2740;
+  --color-kid-bg: #131c21;
+}
+
+.pattern-night {
+  /* Hero surface: always a deep palette gradient with light text, in both themes. */
+  --color-night: var(--hero-ink);
+  --color-night-2: var(--hero-ink-2);
+  --color-parchment: #f4f5f3;
+  --color-card: #ffffff;
+  --color-line: #e2e5e2;
+  --color-gold: var(--hero-gold);
+  --color-gold-soft: var(--hero-gold-soft);
+  --color-muted: #6b7682;
+  background-color: var(--hero-a);
+  background-image:
+    radial-gradient(circle at 85% 0%, rgba(255, 255, 255, 0.22), transparent 42%),
+    linear-gradient(170deg, var(--hero-a) 0%, var(--hero-b) 62%, var(--hero-c) 100%);
+}
+:root[data-theme='dark'] .pattern-night {
+  background-image:
+    radial-gradient(circle at 85% 0%, var(--hero-glow), transparent 45%),
+    linear-gradient(170deg, var(--hero-a) 0%, var(--hero-b) 60%, var(--hero-c) 100%);
+}
+
+/* Soft hero: deep palette colour that melts into the page (Iqraa / Khatam style). */
+.hero-fade {
+  background:
+    radial-gradient(120% 60% at 85% 0%, var(--hero-glow), transparent 60%),
+    linear-gradient(180deg, var(--hero-a) 0%, var(--hero-b) 40%, var(--hero-c) 64%, var(--hero-d) 84%, var(--color-parchment) 100%);
+}
+:root[data-theme='dark'] .hero-fade {
+  background:
+    radial-gradient(120% 60% at 85% 0%, var(--hero-glow), transparent 60%),
+    linear-gradient(180deg, var(--hero-a) 0%, var(--hero-b) 30%, var(--hero-c) 62%, var(--color-parchment) 100%);
+}
+
+/* Shared application canvas. It carries Home's atmosphere across every route
+   without putting dark text directly on the deep hero colour. */
+.app-backdrop {
+  background-color: var(--color-parchment);
+  background-image:
+    radial-gradient(42rem 28rem at 88% -8rem, var(--bd-glow), transparent 72%),
+    linear-gradient(180deg, var(--bd-top) 0, var(--bd-mid) 20rem, var(--color-parchment) 40rem);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+:root[data-kids] {
+  --bd-glow: rgba(22, 163, 111, 0.2);
+  --bd-top: #d9eadf;
+  --bd-mid: #f1eee0;
+}
+:root[data-theme='dark'][data-kids] {
+  --bd-glow: rgba(60, 196, 143, 0.13);
+  --bd-top: #173229;
+  --bd-mid: #15231f;
+}
+
+/* Appearance changes cross-fade (see setAppearance in lib/theme). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.35s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}
+
+/* Press feedback lands on pointer-down, instantly. */
+.press {
+  transition:
+    transform 120ms cubic-bezier(0.25, 0.1, 0.25, 1),
+    box-shadow 200ms ease,
+    background-color 200ms ease,
+    color 200ms ease;
+}
+.press:active {
+  transform: scale(0.95);
+}
+
+/* Floating translucent material (appearance popover). */
+.glass-panel {
+  background: color-mix(in srgb, var(--color-card) 78%, transparent);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  backdrop-filter: blur(28px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 0 0 1px color-mix(in srgb, var(--color-line) 85%, transparent),
+    0 24px 60px -20px rgba(16, 24, 40, 0.45);
+}
+:root[data-theme='dark'] .glass-panel {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 0 1px var(--color-line),
+    0 28px 70px -20px rgba(0, 0, 0, 0.7);
+}
+
+/* Materialise: scale + blur + opacity together, out of the trigger. CSS
+   transitions retarget from the live value, so reopening mid-close reverses. */
+.materialize {
+  transition:
+    opacity 220ms ease,
+    transform 420ms cubic-bezier(0.2, 0.9, 0.25, 1),
+    filter 320ms cubic-bezier(0.2, 0.9, 0.25, 1);
+  will-change: transform, opacity;
+}
+.materialize[data-state='closed'] {
+  opacity: 0;
+  transform: scale(0.88);
+  filter: blur(8px);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .materialize,
+  .materialize[data-state='closed'] {
+    transform: none;
+    filter: none;
+    transition: opacity 180ms ease;
+  }
+  .press:active {
+    transform: none;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass-panel {
+    background: var(--color-card);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@media (prefers-contrast: more) {
+  .glass-panel {
+    background: var(--color-card);
+    box-shadow: 0 0 0 2px var(--color-night);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Mushaf reading surface. Every tone is derived from the active palette and
+   appearance tokens above (data-theme / data-palette / data-kids), so the page
+   follows Appearance changes live; there is no separate Mushaf theme.
+   ------------------------------------------------------------------------- */
+:root {
+  --mf-paper: color-mix(in oklab, color-mix(in oklab, var(--color-card), var(--color-gold-soft) 40%) 84%, #f1e4c6);
+  --mf-edge: color-mix(in oklab, var(--mf-paper) 88%, var(--color-gold));
+  --mf-frame: color-mix(in oklab, var(--color-gold) 55%, #b69c66);
+  --mf-frame-soft: color-mix(in oklab, var(--mf-frame) 42%, transparent);
+  --mf-ink: color-mix(in oklab, var(--color-night) 78%, #1d1913);
+  --mf-ink-soft: color-mix(in oklab, var(--color-muted) 70%, #6f6450);
+  --mf-mark: color-mix(in oklab, var(--color-gold) 58%, #8f6b25);
+  --mf-gutter: color-mix(in oklab, var(--color-night) 9%, transparent);
+  --mf-sel: color-mix(in oklab, var(--color-gold) 15%, transparent);
+  --mf-sel-line: color-mix(in oklab, var(--color-gold) 60%, transparent);
+  --mf-play-line: color-mix(in oklab, #b9862a 75%, var(--color-gold));
+  --mf-play: color-mix(in oklab, var(--mf-play-line) 22%, transparent);
+  --mf-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 30px 60px -30px rgba(40, 35, 20, 0.45), 0 8px 18px -10px rgba(40, 35, 20, 0.22);
+}
+:root[data-theme='dark'] {
+  --mf-paper: color-mix(in oklab, var(--color-card) 91%, var(--color-gold));
+  --mf-edge: color-mix(in oklab, var(--mf-paper) 70%, var(--color-parchment));
+  --mf-frame: color-mix(in oklab, var(--color-gold) 40%, #7d7358);
+  --mf-ink: color-mix(in oklab, #efe6d2 84%, var(--color-night));
+  --mf-ink-soft: var(--color-muted);
+  --mf-mark: color-mix(in oklab, #c9a45c 60%, var(--color-gold));
+  --mf-gutter: rgba(0, 0, 0, 0.32);
+  --mf-sel: color-mix(in oklab, var(--color-gold) 24%, transparent);
+  --mf-sel-line: color-mix(in oklab, var(--color-gold) 70%, transparent);
+  --mf-play-line: color-mix(in oklab, #c9a45c 75%, var(--color-gold));
+  --mf-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+@layer components {
+  .mf-paper {
+    position: relative;
+    background-color: var(--mf-paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .36 0 0 0 0 .2 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+      radial-gradient(120% 90% at 50% 45%, transparent 60%, var(--mf-edge) 100%);
+    box-shadow: var(--mf-shadow);
+    color: var(--mf-ink);
+  }
+}
+/* Binding shade on the spine edge (odd pages are right-hand pages). */
+.mf-paper[data-side]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.mf-paper[data-side='right']::before {
+  background: linear-gradient(90deg, var(--mf-gutter), transparent 9%);
+}
+.mf-paper[data-side='left']::before {
+  background: linear-gradient(270deg, var(--mf-gutter), transparent 9%);
+}
+.mf-frame {
+  position: relative;
+  border: 1px solid var(--mf-frame);
+  box-shadow:
+    inset 0 0 0 3px var(--mf-paper),
+    inset 0 0 0 3.6px var(--mf-frame-soft);
+}
+.mf-frame > .mf-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  color: var(--mf-frame);
+  background: var(--mf-paper);
+}
+.mf-corner.tl { top: -9px; left: -9px; }
+.mf-corner.tr { top: -9px; right: -9px; }
+.mf-corner.bl { bottom: -9px; left: -9px; }
+.mf-corner.br { bottom: -9px; right: -9px; }
+
+.mf-text {
+  font-family: 'Rafiqi Hafs', 'Rafiqi Quran', 'Amiri Quran', serif;
+  direction: rtl;
+  text-align: justify;
+  text-align-last: center;
+  word-spacing: 0.02em;
+  color: var(--mf-ink);
+  overflow-wrap: break-word;
+}
+.mf-text.tanzil {
+  font-family: 'Rafiqi Quran', 'Amiri Quran', 'Noto Naskh Arabic', serif;
+}
+.mf-num {
+  color: var(--mf-mark);
+  margin-inline: 0.08em;
+  white-space: nowrap;
+}
+.mf-ayah {
+  border-radius: 0.35em;
+  padding-block: 0.08em;
+  transition: background-color 180ms ease, box-shadow 180ms ease;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  cursor: pointer;
+  outline-offset: 1px;
+}
+@media (hover: hover) {
+  .mf-ayah:hover {
+    background: color-mix(in oklab, var(--mf-sel) 55%, transparent);
+  }
+}
+.mf-ayah[data-state='selected'] {
+  background: var(--mf-sel);
+  box-shadow: inset 0 -1.5px 0 var(--mf-sel-line);
+}
+.mf-ayah[data-state='playing'] {
+  background: var(--mf-play);
+  box-shadow: inset 0 -1.5px 0 var(--mf-play-line);
+}
+.mf-ayah[data-state='selected'] .mf-num {
+  color: var(--color-gold);
+}
+.mf-ayah[data-state='playing'] .mf-num {
+  color: var(--mf-play-line);
+}
+.mf-serif {
+  font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+}
+/* Page swipe track: follows the finger, then settles (see MushafReader). */
+.mf-track {
+  touch-action: pan-y;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mf-track {
+    transition: opacity 180ms ease !important;
+  }
+}

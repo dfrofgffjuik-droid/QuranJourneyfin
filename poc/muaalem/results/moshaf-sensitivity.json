@@ -1,0 +1,134 @@
+{
+ "reciter": "minshawi_murattal",
+ "override": {
+  "madd_aared_len": 2
+ },
+ "rows": [
+  {
+   "id": "correct_minshawi_murattal_1_2",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_1_3",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_1_4",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_1_5",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_1_6",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_1_7",
+   "tajweed_flags": 0,
+   "other_flags": 1,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_112_1",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_112_2",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_112_3",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_112_4",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_113_1",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_113_2",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_113_3",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_113_4",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_113_5",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_114_1",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_114_2",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_114_3",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_114_4",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_114_5",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  },
+  {
+   "id": "correct_minshawi_murattal_114_6",
+   "tajweed_flags": 0,
+   "other_flags": 0,
+   "tajweed": []
+  }
+ ]
+}
