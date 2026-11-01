@@ -5,8 +5,15 @@
 // the book's text verbatim (diacritics as published), split into typed segments
 // (Hadith wording, Quranic text, instructions), with the book's own footnotes.
 // Repeat counts are the book's, cross-checked against hisnmuslim.com. Quranic
-// segments were checked byte-for-byte against the project's KFGQPC Hafs text.
+// segments were compared programmatically with the project's KFGQPC Hafs text;
+// each reference keeps its own match status (`exact`, `letters`, `partial-quote`)
+// and only `exact` may be presented as an exact match.
 // Nothing here is typed by hand; collections only group the book's chapters.
+//
+// Verification status: `source-verified` means "extracted and compared against the
+// source" (مقابَل على المصدر) — NOT an independent scholarly review, which is still
+// pending. No explicit open licence is stated by the source; publisher permission
+// and scholarly review must be confirmed before any production use.
 import data from './hisn.json'
 
 export type Seg = { k: 'h' | 'q' | 'p'; t: string } | { k: 'fn'; n: number } | { k: 'br' }
@@ -31,10 +38,23 @@ export type HisnItem = {
 export type QuranItem = { id: string; kind: 'quran'; s: number; from: number; to: number }
 export type Item = HisnItem | QuranItem
 
-const D = data as unknown as { items: HisnItem[]; chapters: Record<string, string>; source: Record<string, string> }
+const D = data as unknown as { items: HisnItem[]; chapters: Record<string, string>; source: Record<string, string>; problems?: string[] }
 export const SOURCE = D.source
 export const CHAPTERS = D.chapters
 export const HISN: HisnItem[] = D.items
+/**
+ * Book lines the extraction could not match to the cross-check source (e.g. the opening /
+ * context line of chapter 27). They are kept OUT of the counted items, with no repeat
+ * count, until their source is reviewed. Chapter numbers only; the text is not re-typed here.
+ */
+export const UNMATCHED_CONTEXT: { chapter: number }[] = (D.problems ?? []).flatMap((p) => {
+  const m = /^ch(\d+): book item not in hisnmuslim\.com/.exec(p)
+  return m ? [{ chapter: Number(m[1]) }] : []
+})
+export const STATUS_AR: Record<HisnItem['status'], string> = { 'source-verified': 'مقابَل على المصدر', 'needs-review': 'يحتاج مراجعة' }
+/** Only `exact` is an exact match; anything else needs review. */
+export const QURAN_MATCH_AR = (match: string) =>
+  match === 'exact' ? 'مطابق حرفيًا لنص المصحف في التطبيق (مقارنة آلية)' : match === 'letters' ? 'تطابق في الحروف دون الضبط الكامل · يحتاج مراجعة' : match === 'partial-quote' ? 'اقتباس جزئي من الآية · يحتاج مراجعة' : 'لم تُؤكَّد المطابقة · يحتاج مراجعة'
 const byChapter = (c: number) => HISN.filter((i) => i.chapter === c)
 
 export type Kind = 'daily' | 'occasion' | 'general'

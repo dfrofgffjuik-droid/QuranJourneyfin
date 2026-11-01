@@ -2,13 +2,13 @@
 // come from screens/kidsData.ts; completion comes from the shared preview store
 // (../progress): every lesson has a stable id, is recorded once and earns one star.
 // Lessons are played inside the preview so nothing is written to the app's kids data.
-import { useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Chrome, Head, Icon, MoreTabs, toAr, useDevice, useProto } from '../core'
 import { Box, GlowDefs, STATUS_COLOR, kernel, tint, type Faces, type Status } from '../iso'
 import { actions, derived, usePreview, type Room as KidsRoom } from '../progress'
 import { DataBar } from '../previewUi'
 import { HARAKAT, JOIN_WORDS, LETTERS, READING_LESSONS } from '../../../screens/kidsData'
-import { surah } from '../../../lib/quran'
+import { BISMILLAH_HAFS, hasBismillahHeader, loadMushaf, surah } from '../../../lib/quran'
 
 const roomStatus = (r: KidsRoom): Status => (r.done === 0 ? 'idle' : r.done >= r.total ? 'done' : 'progress')
 const DECOR: Record<string, string> = { garden: 'var(--color-kid-1)', sun: 'var(--color-kid-2)', sky: 'var(--color-kid-3)', rose: 'var(--color-kid-4)', lilac: 'var(--color-kid-5)' }
@@ -320,17 +320,67 @@ function ReadPlayer({ items, title, won, onWin, footer }: { items: string[]; tit
   )
 }
 
+/**
+ * Short surah: the real text from the verified Mushaf, read and repeated ayah by ayah with a
+ * parent. No licensed audio is bundled, so there is no play button — the screen says so.
+ * The star is granted once, only after the parent confirms (the store ignores repeats).
+ */
 function SurahPlayer({ n, won, onWin, footer }: { n: number; won: boolean; onWin: () => void; footer: ReactNode }) {
   const [sure, setSure] = useState(false)
+  const [text, setText] = useState<{ n: number; ayat: string[]; hafs: boolean } | null | false>(null)
+  const [attempt, setAttempt] = useState(0)
+  const [reps, setReps] = useState<Record<number, number>>({})
+  useEffect(() => {
+    let live = true
+    setText(null)
+    loadMushaf(n).then((r) => live && setText({ n, ayat: r.ayat, hafs: r.hafs }), () => live && setText(false))
+    return () => {
+      live = false
+    }
+  }, [n, attempt])
+  const ready = text && text.n === n ? text : null
+  const total = ready ? ready.ayat.length : surah(n).ayat
+  const readAll = !!ready && ready.ayat.every((_, i) => (reps[i] ?? 0) >= 1)
+  const repeated = ready ? ready.ayat.filter((_, i) => (reps[i] ?? 0) >= 1).length : 0
   return (
-    <div>
-      <p className="text-[14px] font-semibold">سورة {surah(n).ar}</p>
-      <p className="mt-1 text-[12.5px] text-muted">استمع وكرّر مع وليّ أمرك. تُحسب السورة محفوظة فقط حين يؤكّد وليّ الأمر أنها أُتقنت.</p>
-      <label className="mt-3 flex items-center gap-2 rounded-[14px] bg-card p-3 text-[13px]">
-        <input type="checkbox" checked={sure} disabled={won} onChange={(e) => setSure(e.target.checked)} className="h-4 w-4 accent-[var(--color-gold)]" data-parent-confirm />
-        أؤكّد (وليّ الأمر) أن طفلي أتقن سورة {surah(n).ar}
+    <div data-kids-surah={n}>
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-[14px] font-semibold">سورة {surah(n).ar} · {toAr(total)} {total >= 3 && total <= 10 ? 'آيات' : 'آية'}</p>
+        <span className="rounded-full bg-card px-2.5 py-1 text-[11.5px] font-semibold" data-kids-progress>كرّرت {toAr(repeated)} من {toAr(total)}</span>
+      </div>
+      <p className="mt-2 flex items-start gap-1.5 rounded-[14px] bg-card/70 p-2.5 text-[12px] text-muted" data-audio-unavailable><Icon name="info" size={14} className="mt-0.5 shrink-0" />الاستماع غير متوفّر حاليًا في هذه المعاينة. اقرأ الآيات مع وليّ أمرك أو معلّمك، وكرّر كل آية بعده.</p>
+      <div className="mf-paper mt-3 rounded-[20px] p-3">
+        {text === false ? (
+          <p role="alert" className="text-[13px]">تعذّر تحميل نص السورة. <button type="button" onClick={() => setAttempt((x) => x + 1)} className="font-semibold underline">أعد المحاولة</button></p>
+        ) : !ready ? (
+          <div className="h-20 animate-pulse rounded-xl bg-night/5" role="status" aria-label="جارٍ تحميل السورة" />
+        ) : (
+          <>
+            {hasBismillahHeader(n) && <p className={`mf-text ${ready.hafs ? '' : 'tanzil'} text-center`} style={{ fontSize: 20, lineHeight: 2 }}>{BISMILLAH_HAFS}</p>}
+            <ol className="space-y-1.5">
+              {ready.ayat.map((t, i) => {
+                const r = reps[i] ?? 0
+                return (
+                  <li key={i} className={`rounded-[14px] px-2 py-1 ${r ? 'bg-leaf/10' : ''}`}>
+                    <p className={`mf-text ${ready.hafs ? '' : 'tanzil'}`} style={{ fontSize: 22, lineHeight: 2.05, textAlign: 'right', textAlignLast: 'right' }}>{t} <span className="mf-num">{toAr(i + 1)}</span></p>
+                    <div className="flex items-center justify-end gap-2 pb-1">
+                      <span className="flex gap-1" aria-label={`كُرّرت ${r} من ٣`}>{[0, 1, 2].map((k) => <span key={k} className={`h-2 w-2 rounded-full ${k < r ? 'bg-gold' : 'bg-night/15'}`} />)}</span>
+                      <button type="button" disabled={r >= 3 || won} onClick={() => setReps((x) => ({ ...x, [i]: Math.min(3, (x[i] ?? 0) + 1) }))} className="press h-10 rounded-full bg-card px-4 text-[12.5px] font-semibold ring-1 ring-line disabled:opacity-50" data-repeat={i + 1}>{r >= 3 ? 'أحسنت!' : 'كرّرتها'}</button>
+                    </div>
+                  </li>
+                )
+              })}
+            </ol>
+          </>
+        )}
+      </div>
+      <p className="mt-3 text-[12.5px] text-muted">تُحسب السورة محفوظة فقط حين يستمع وليّ الأمر إلى طفله ويؤكّد أنه أتقنها.</p>
+      <label className={`mt-2 flex items-center gap-2 rounded-[14px] bg-card p-3 text-[13px] ${!readAll && !won ? 'opacity-60' : ''}`}>
+        <input type="checkbox" checked={sure} disabled={won || !readAll} onChange={(e) => setSure(e.target.checked)} className="h-4 w-4 accent-[var(--color-gold)]" data-parent-confirm />
+        أؤكّد (وليّ الأمر) أنني استمعت وأن طفلي أتقن سورة {surah(n).ar}
       </label>
-      <button type="button" disabled={!sure || won} onClick={onWin} className="press mt-3 h-11 w-full rounded-full bg-night text-[13px] font-semibold text-parchment disabled:opacity-40" data-surah-done>سجّل السورة محفوظة</button>
+      {!readAll && !won && <p className="mt-1 text-[11.5px] text-muted">كرّر كل آية مرة على الأقل ليظهر تأكيد وليّ الأمر.</p>}
+      <button type="button" disabled={!sure || won || !readAll} onClick={onWin} className="press mt-3 h-11 w-full rounded-full bg-night text-[13px] font-semibold text-parchment disabled:opacity-40" data-surah-done>سجّل السورة محفوظة</button>
       {footer}
     </div>
   )

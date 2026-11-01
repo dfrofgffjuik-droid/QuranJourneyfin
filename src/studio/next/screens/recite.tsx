@@ -413,7 +413,7 @@ function ResultCard({ rec, showTemplate, setShowTemplate }: { rec: Rec; showTemp
           <ul className="mt-3 space-y-1.5 text-night/80">
             <li>• استمع لتسجيلك ثم للقارئ وقارن بنفسك.</li>
             <li>• كرّر الآية التي تشعر أنها تحتاج تمرينًا.</li>
-            <li>• اطلب مراجعة معلّمك من السجلّ أدناه.</li>
+            <li>• اعرض تلاوتك على معلّمك مباشرة؛ خدمة مراجعة المعلّم غير متاحة بعد في التطبيق.</li>
           </ul>
         </div>
       ) : (
@@ -497,7 +497,7 @@ function Stat({ c, l, v }: { c: string; l: string; v: string }) {
 function HistoryCard() {
   const h = useHistory()
   return (
-    <Card title="٥. السجلّ ومراجعة المعلّم" icon="users" badge={<span className="text-[11px] text-muted">هذه الجلسة فقط</span>}>
+    <Card title="٥. السجلّ ومراجعة المعلّم" icon="users" badge={<span className="text-[11px] text-muted">هذه الجلسة فقط · مراجعة المعلّم غير متاحة</span>}>
       {h.length === 0 ? (
         <p className="text-[13px] text-muted">لا توجد محاولات بعد. تظهر هنا كل محاولة بعد طلب التحليل، مع حالتها الحقيقية.</p>
       ) : (
@@ -512,16 +512,14 @@ function HistoryCard() {
                 <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${x.result === 'analysed' ? 'bg-gold-soft' : 'bg-night/[.06] text-muted'}`}>
                   آلي تجريبي: {x.result === 'analysed' ? `${toAr(x.flagged)} موضع محتمل` : x.result === 'unreliable' ? 'امتنع عن الحكم' : 'لم يُحلَّل'}
                 </span>
-                <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${x.teacher === 'requested' ? 'bg-sky/15 text-sky' : 'bg-night/[.06] text-muted'}`}>
-                  المعلّم: {x.teacher === 'requested' ? 'طُلبت المراجعة (نموذج)' : 'لا توجد ملاحظة'}
-                </span>
-                {x.teacher === 'none' && <button type="button" onClick={() => setHistory(h.map((y) => (y.id === x.id ? { ...y, teacher: 'requested' } : y)))} className="press ms-auto h-8 rounded-full bg-night px-3 text-[11.5px] font-semibold text-parchment">اطلب مراجعة المعلّم</button>}
+                <span className="rounded-full bg-night/[.06] px-2 py-0.5 text-[11px] font-semibold text-muted">المعلّم: لا توجد ملاحظة</span>
+                <button type="button" disabled title="لا توجد خدمة مراجعة معلّم حقيقية بعد" className="ms-auto h-8 rounded-full bg-night/[.06] px-3 text-[11.5px] font-semibold text-muted" data-teacher-unavailable>مراجعة المعلّم · غير متاحة بعد</button>
               </div>
             </li>
           ))}
         </ul>
       )}
-      <p className="mt-3 text-[11.5px] leading-relaxed text-muted">مراجعة المعلّم اختيارية وهي نموذج أولي: لا توجد خدمة مراجعة حقيقية ولا يُرسل التسجيل إلى أحد. ملاحظات المعلّم تظهر بلون أزرق منفصل عن الملاحظات الآلية.</p>
+      <p className="mt-3 text-[11.5px] leading-relaxed text-muted">مراجعة المعلّم غير متاحة بعد: لا توجد خدمة مراجعة حقيقية، فلا يمكن طلبها ولا يُرسل التسجيل إلى أحد. عند توفّرها ستظهر ملاحظات المعلّم منفصلة عن الملاحظات الآلية.</p>
     </Card>
   )
 }

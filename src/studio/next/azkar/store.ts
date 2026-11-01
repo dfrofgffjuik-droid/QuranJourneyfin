@@ -3,6 +3,7 @@
 // favourites, settings and the per-day history are kept.
 import { useSyncExternalStore } from 'react'
 import { COLLECTIONS, collection, countable, itemsOf } from './catalog'
+import { quarantine, readRaw, safeWrite } from '../storageSafety'
 
 export const AZKAR_KEY = 'quranJourney.nextPreview.azkar.v1'
 export type FontSize = 's' | 'm' | 'l' | 'xl'
@@ -47,15 +48,40 @@ function rollover(st: AState): AState {
 
 export type AzkarStorage = 'ok' | 'unavailable' | 'recovered'
 let storage: AzkarStorage = 'ok'
+const isObj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x)
+/** Keeps every valid part of a saved state; returns whether anything had to be left out. */
+function sanitize(s: Record<string, unknown>): { st: AState; partial: boolean } {
+  let partial = false
+  const counts: Record<string, number> = {}
+  for (const [k, v] of Object.entries(isObj(s.counts) ? s.counts : ((partial = true), {}))) {
+    if (typeof v === 'number' && Number.isInteger(v) && v >= 0) counts[k] = v
+    else partial = true
+  }
+  const favorites = Array.isArray(s.favorites) ? s.favorites.filter((x): x is string => typeof x === 'string') : ((partial = true), [])
+  const history = isObj(s.history) ? (s.history as AState['history']) : ((partial = true), {})
+  const settings = { ...fresh().settings, ...(isObj(s.settings) ? s.settings : {}) } as AState['settings']
+  const date = typeof s.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s.date) ? s.date : ((partial = true), localDate())
+  return { st: { ...fresh(), date, counts, favorites, history, settings, lastCollection: typeof s.lastCollection === 'string' ? s.lastCollection : null }, partial }
+}
+let keepRawUntilAction = false
 function load(): AState {
+  const { raw, blocked } = readRaw(AZKAR_KEY)
+  if (blocked) {
+    storage = 'unavailable'
+    return fresh()
+  }
+  if (!raw) return fresh()
   try {
-    const raw = localStorage.getItem(AZKAR_KEY)
-    if (!raw) return fresh()
-    const s = JSON.parse(raw) as AState
-    if (s?.v !== 1 || typeof s.counts !== 'object' || !Array.isArray(s.favorites)) throw new Error('shape')
-    return rollover({ ...fresh(), ...s, settings: { ...fresh().settings, ...s.settings } })
-  } catch (e) {
-    storage = (e as Error)?.message === 'shape' || e instanceof SyntaxError ? 'recovered' : 'unavailable'
+    const s = JSON.parse(raw)
+    if (!isObj(s) || s.v !== 1) throw new Error('shape')
+    const { st, partial } = sanitize(s)
+    if (partial) (quarantine(AZKAR_KEY, raw, true), (storage = 'recovered'))
+    return rollover(st)
+  } catch {
+    // Never discard unreadable progress: keep a copy, start fresh, and say so.
+    quarantine(AZKAR_KEY, raw)
+    storage = 'recovered'
+    keepRawUntilAction = true
     return fresh()
   }
 }
@@ -63,14 +89,11 @@ let state = load()
 const subs = new Set<() => void>()
 function publish(next: AState) {
   state = next
-  try {
-    localStorage.setItem(AZKAR_KEY, JSON.stringify(state))
-  } catch {
-    storage = 'unavailable'
-  }
+  storage = safeWrite(AZKAR_KEY, JSON.stringify(state)) ? (storage === 'unavailable' ? 'ok' : storage) : 'unavailable'
   subs.forEach((f) => f())
 }
-publish(state)
+// Persist the daily rollover at load — but an unreadable value is replaced only after the user acts.
+if (!keepRawUntilAction && (storage as AzkarStorage) !== 'unavailable') publish(state)
 const update = (f: (s: AState) => AState) => publish(f(rollover(state)))
 // A session left open across midnight starts the new day on its own.
 if (typeof window !== 'undefined') {

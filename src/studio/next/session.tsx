@@ -1,10 +1,14 @@
 // Shared memorization session for the Next-generation preview (design only).
 // Lives above the device frames in NextPreview so Desktop, Mobile and Both
-// show one session. Preview memory only: never written to the app store,
-// localStorage or any account.
-import { createContext, useContext, useMemo, useState } from 'react'
+// show one session. Persisted under its own preview key (never the app store
+// or any account) so a refresh resumes the same passage, ayah and results.
+// Restoring a session never records progress; only explicit actions do.
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { surah } from '../../lib/quran'
 import { JOURNEY } from './data'
+import { quarantine, readRaw, safeWrite } from './storageSafety'
+
+export const SESSION_KEY = 'quranJourney.nextPreview.session.v1'
 
 export type Intent = 'hifz' | 'tadabbur' | 'both'
 export type MemResult = 'mastered' | 'shaky' | 'forgot'
@@ -64,6 +68,40 @@ export type PassagePair = ReturnType<typeof pairsForPassage>[number]
 const EMPTY_SIM: SimProgress = { reviewed: {}, compared: {}, diffDone: 0, recallTried: 0, recallOk: 0 }
 const initial: Session = { passage: DEMO_PASSAGE, cur: DEMO_PASSAGE.from, intent: 'both', mem: {}, notes: {}, marks: {}, pairs: [], sim: EMPTY_SIM, nonce: 0, away: null }
 
+/** Restores the saved session. Unreadable data is copied aside first (never silently discarded). */
+export function loadSession(): Session {
+  const { raw } = readRaw(SESSION_KEY)
+  if (!raw) return initial
+  try {
+    const s = JSON.parse(raw) as Partial<Session> & { v?: number }
+    if (!s || typeof s !== 'object' || s.v !== 1) throw new Error('shape')
+    let partial = false
+    const obj = <T,>(x: unknown, d: T): T => (x && typeof x === 'object' && !Array.isArray(x) ? (x as T) : x === undefined ? d : ((partial = true), d))
+    const passage = s.passage && !validatePassage(s.passage) ? s.passage : ((partial = true), initial.passage)
+    const cur = typeof s.cur === 'number' && s.cur >= passage.from && s.cur <= passage.to ? s.cur : passage.from
+    const out: Session = {
+      ...initial,
+      passage,
+      cur,
+      intent: s.intent === 'hifz' || s.intent === 'tadabbur' || s.intent === 'both' ? s.intent : initial.intent,
+      mem: obj(s.mem, {}),
+      notes: obj(s.notes, {}),
+      marks: obj(s.marks, {}),
+      pairs: Array.isArray(s.pairs) ? s.pairs : s.pairs === undefined ? [] : ((partial = true), []),
+      sim: { ...EMPTY_SIM, ...obj(s.sim, {}) },
+    }
+    if (partial) quarantine(SESSION_KEY, raw, true)
+    return out
+  } catch {
+    quarantine(SESSION_KEY, raw)
+    return initial
+  }
+}
+export function saveSession(s: Session) {
+  const { nonce: _n, away: _a, ...keep } = s
+  safeWrite(SESSION_KEY, JSON.stringify({ v: 1, ...keep, savedAt: new Date().toISOString() }))
+}
+
 function api(s: Session, up: (f: (s: Session) => Session) => void) {
   return {
     s,
@@ -121,7 +159,8 @@ export const useSession = () => useContext(SessionCtx)
 
 /** Owner hook for NextPreview: one session for every frame. */
 export function useSessionState(): SessionApi {
-  const [s, set] = useState<Session>(initial)
+  const [s, set] = useState<Session>(loadSession)
+  useEffect(() => saveSession(s), [s])
   return useMemo(() => api(s, set), [s])
 }
 

@@ -1,11 +1,12 @@
-// أذكاري — Azkar (design preview). Content is the verified Hisn al-Muslim library
-// in ../azkar (verbatim text, the book's counts and footnotes); Quranic
-// supplications are rendered from the project's verified Mushaf. Progress lives
+// أذكاري — Azkar (design preview). Content is the Hisn al-Muslim library in
+// ../azkar, extracted verbatim and compared against its source (text, the book's
+// counts and footnotes); independent scholarly review is still pending. Quranic
+// supplications are rendered from the project's Mushaf text. Progress lives
 // in the isolated preview store ../azkar/store (its own localStorage key).
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Chrome, Head, Icon, toAr, useDevice, useProto } from '../core'
 import { loadMushaf, surah } from '../../../lib/quran'
-import { ALL_ITEMS, CHAPTERS, COLLECTIONS, GROUPS, SOURCE, collection, collectionsOf, countable, findItem, itemsOf, plainOf, searchKey, timeOfDay, type Collection, type HisnItem, type Item, type QuranItem, type Seg } from '../azkar/catalog'
+import { ALL_ITEMS, CHAPTERS, COLLECTIONS, GROUPS, QURAN_MATCH_AR, SOURCE, STATUS_AR, UNMATCHED_CONTEXT, collection, collectionsOf, countable, findItem, itemsOf, plainOf, searchKey, timeOfDay, type Collection, type HisnItem, type Item, type QuranItem, type Seg } from '../azkar/catalog'
 import { DAILY_IDS, azkar, azkarStorage, progressOf, todaySummary, useAzkar, type AState, type FontSize } from '../azkar/store'
 import { Confirm } from '../previewUi'
 
@@ -188,8 +189,10 @@ function SourceNote() {
   return (
     <section className="rounded-[20px] bg-night/[.03] p-4 text-[12px] leading-relaxed text-muted ring-1 ring-line" data-source-note>
       <p className="flex items-center gap-1.5 font-semibold text-night"><Icon name="shield" size={14} className="text-leaf" />المصدر</p>
-      <p className="mt-1">«{SOURCE.title}» — {SOURCE.author}، طبعة {SOURCE.publisher}. النصوص منقولة كما هي بتشكيلها وحواشيها، وأعداد التكرار من الكتاب مع مقارنتها بـ hisnmuslim.com. الآيات مطابقة لنص المصحف المعتمد في التطبيق. لا تتوفّر تسجيلات صوتية مرخّصة، لذلك لا يوجد زر استماع.</p>
-      <p className="mt-1">يُحفظ التقدّم في هذا المتصفح للمعاينة فقط، بمفتاح منفصل عن التطبيق.{s !== 'ok' && (s === 'unavailable' ? ' تعذّر الحفظ في المتصفح؛ سيضيع التقدّم عند الإغلاق.' : ' كانت البيانات المحفوظة تالفة فبدأت جلسة جديدة.')}</p>
+      <p className="mt-1">«{SOURCE.title}» — {SOURCE.author}، طبعة {SOURCE.publisher}. النصوص منقولة كما هي بتشكيلها وحواشيها ومقابَلة على المصدر، وأعداد التكرار من الكتاب مع مقارنتها بـ <bdi dir="ltr">hisnmuslim.com</bdi>. الآيات الواردة داخل الأذكار قوبلت آليًا بنص المصحف في التطبيق، وتظهر حالة المطابقة لكل ذكر في تفاصيله؛ أما «أدعية قرآنية» فتُعرض مباشرة من نص المصحف. لا تتوفّر تسجيلات صوتية مرخّصة، لذلك لا يوجد زر استماع.</p>
+      <p className="mt-1">«مقابَل على المصدر» يعني أن النص استُخرج وقورن بالمصدر، وليس اعتمادًا من عالم؛ المراجعة العلمية المستقلة لم تتم بعد. لا يوجد بيان ترخيص صريح في صفحة المصدر.</p>
+      <p className="mt-1 rounded-[12px] bg-clay/[.07] px-2.5 py-1.5 text-clay" data-production-warning>تنبيه قبل الإنتاج: يجب تأكيد إذن الناشر بالاستخدام وإتمام المراجعة العلمية المستقلة قبل نقل هذا المحتوى إلى التطبيق.</p>
+      <p className="mt-1">يُحفظ التقدّم على هذا المتصفح في هذا الجهاز فقط، للمعاينة وبمفتاح منفصل عن التطبيق؛ لا مزامنة سحابية ولا انتقال إلى أجهزة أخرى.{s !== 'ok' && (s === 'unavailable' ? ' تعذّر الحفظ على هذا الجهاز؛ سيضيع تقدّم اليوم عند إغلاق الصفحة.' : ' تعذّرت قراءة بعض التقدّم المحفوظ؛ لم يُحذف، واحتُفظ بنسخة كاملة منه على هذا الجهاز.')}</p>
     </section>
   )
 }
@@ -271,6 +274,11 @@ function CollectionView({ col, st, jump }: { col: Collection; st: AState; jump?:
         </div>
       )}
       {col.note && <p className="mb-4 rounded-[16px] bg-sky/[.07] p-3 text-[12.5px] leading-relaxed text-night/80 ring-1 ring-sky/20">{col.note}</p>}
+      {UNMATCHED_CONTEXT.some((u) => col.chapters.includes(u.chapter)) && (
+        <p className="mb-4 rounded-[16px] bg-night/[.04] p-3 text-[12px] leading-relaxed text-muted ring-1 ring-line" data-context-note>
+          في أول هذا الباب من الكتاب سطر افتتاحي (تمهيد وسياق) لم يُطابَق مع مصدر المقارنة؛ لذلك لا يُعرض هنا ذكرًا معدودًا ولا عدد تكرار له، ولا يدخل في التقدّم حتى تتم مراجعة مصدره.
+        </p>
+      )}
       <ol ref={list} className="space-y-4">
         {items.map((it) => {
           const ch = it.kind === 'quran' ? -1 : it.chapter
@@ -455,33 +463,60 @@ function DhikrCard({ it, colId, timing, st }: { it: HisnItem; colId: string; tim
 }
 
 function Details({ it, fnIndex }: { it: HisnItem; fnIndex: (n: number) => number }) {
-  const q = it.quran.filter((x): x is { s: number; from: number; to: number; match: string } => 's' in x)
   return (
     <div className="mt-2.5 space-y-2 text-[12.5px] leading-relaxed" data-details>
       {it.notes.map((x) => (
         <p key={x.n} className="rounded-[12px] bg-night/[.03] px-3 py-2"><b className="font-semibold text-gold">{toAr(fnIndex(x.n))}</b> · <span className="text-muted">{x.kind === 'takhrij' ? 'التخريج' : 'حاشية'}:</span> {x.text}</p>
       ))}
       <p><span className="text-muted">درجة الحديث:</span> {it.grading.length ? <>كما في الحاشية: «{it.grading.join('»، «')}»</> : 'لم يُذكر حكم صريح في الكتاب؛ لا نضيف حكمًا من عندنا.'}</p>
-      {q.length > 0 && <p><span className="text-muted">الآيات:</span> {q.map((x) => `${surah(x.s).ar} ${toAr(x.from)}${x.to !== x.from ? `–${toAr(x.to)}` : ''}`).join('، ')} · مطابقة حرفيًا لنص المصحف المعتمد في التطبيق</p>}
+      {it.quran.length > 0 && (
+        <ul className="space-y-1" data-quran-refs>
+          {it.quran.map((x, k) => (
+            <li key={k} data-match={x.match}>
+              <span className="text-muted">الآية:</span> {'s' in x ? `${surah(x.s).ar} ${toAr(x.from)}${x.to !== x.from ? `–${toAr(x.to)}` : ''}` : 'موضع غير محدّد في الكتاب'} · <span className={x.match === 'exact' ? 'text-leaf' : 'text-clay'}>{QURAN_MATCH_AR(x.match)}</span>
+              {'s' in x && x.match !== 'exact' && <MushafRef s={x.s} from={x.from} to={x.to} />}
+            </li>
+          ))}
+        </ul>
+      )}
       <Checklist it={it} />
     </div>
   )
 }
 
+/** For a non-exact match: the verse as it is in the app's Mushaf, for comparison. */
+function MushafRef({ s, from, to }: { s: number; from: number; to: number }) {
+  const [t, setT] = useState<{ ayat: string[]; hafs: boolean } | null | false>(null)
+  useEffect(() => {
+    let live = true
+    loadMushaf(s).then((r) => live && setT({ ayat: r.ayat.slice(from - 1, to), hafs: r.hafs }), () => live && setT(false))
+    return () => {
+      live = false
+    }
+  }, [s, from, to])
+  if (!t) return t === false ? <p className="text-[11.5px] text-muted">تعذّر تحميل نص المصحف للمقارنة.</p> : null
+  return (
+    <p className={`mf-text mt-1 rounded-[12px] bg-[var(--mf-paper)] px-3 py-1.5 ${t.hafs ? '' : 'tanzil'}`} style={{ fontSize: 17, lineHeight: 2 }}>
+      <span className="block font-sans text-[11px] text-muted">نص المصحف في التطبيق للمقارنة:</span>
+      {t.ayat.map((a, i) => <span key={i}>{a} <span className="mf-num">{toAr(from + i)}</span> </span>)}
+    </p>
+  )
+}
+
 function Checklist({ it }: { it: HisnItem }) {
   const rows: [string, string, boolean][] = [
-    ['النص', 'منقول حرفيًا من الطبعة الرسمية', true],
+    ['النص', 'منقول من الطبعة الرسمية ومقابَل عليها (استخراج آلي)', true],
     ['التشكيل', 'كما في المصدر', true],
     ['العدد', it.kind === 'instruction' ? 'لا ينطبق (إرشاد)' : `${times(it.count ?? it.countBook)} — مطابق بين الكتاب وhisnmuslim.com`, it.kind === 'instruction' || it.count != null],
     ['المناسبة', `الباب ${toAr(it.chapter)}: ${CHAPTERS[String(it.chapter)]}`, true],
     ['المصدر', it.notes.some((n) => n.kind === 'takhrij') ? 'تخريج الكتاب مذكور أعلاه' : 'لا تخريج', it.notes.some((n) => n.kind === 'takhrij')],
     ['الحكم', it.grading.length ? 'منصوص في الحاشية' : 'غير مذكور في الكتاب', it.grading.length > 0],
     ['الروايات', it.notes.length > 1 ? 'الحواشي محفوظة كما هي' : 'لا فروق مذكورة', true],
-    ['مراجعة عالم', 'لم تتم بعد في هذه المعاينة', false],
+    ['مراجعة علمية', 'مراجعة مستقلة من عالم مؤهّل · معلّقة، لم تتم بعد', false],
   ]
   return (
     <details className="rounded-[12px] bg-night/[.03] px-3 py-2" data-checklist>
-      <summary className="cursor-pointer text-[12px] font-semibold">قائمة التحقّق ({it.status === 'source-verified' ? 'موثّق من المصدر' : 'يحتاج مراجعة'})</summary>
+      <summary className="cursor-pointer text-[12px] font-semibold">قائمة التحقّق ({STATUS_AR[it.status]} · المراجعة العلمية معلّقة)</summary>
       <ul className="mt-2 space-y-1 text-[12px]">
         {rows.map(([k, v, ok]) => <li key={k} className="flex gap-2"><span className={ok ? 'text-leaf' : 'text-muted'}>{ok ? '✓' : '○'}</span><span className="w-16 shrink-0 text-muted">{k}</span><span>{v}</span></li>)}
       </ul>

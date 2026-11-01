@@ -2,7 +2,7 @@
 // screen of the Next-generation preview. It reuses the Phase 1 reader
 // components as they are (src/studio/mushaf); only the host wiring lives here.
 // Design only: no app store, no production Reader, no saved progress.
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { pageOf } from '../../../lib/quran'
 import '../../mushaf/mushaf-preview.css'
 import { DesktopReader, type Tone } from '../../mushaf/desktop'
@@ -11,7 +11,9 @@ import { navTo, type Focus, type Go, type MushafNav } from '../../mushaf/page'
 import { Chrome, Icon, toAr, useDevice, useProto } from '../core'
 import { useSession } from '../session'
 import { setActiveTask, useActiveTask } from '../taskNav'
-import { actions, rangeAr, usePreview } from '../progress'
+import { actions, rangeAr, today, usePreview } from '../progress'
+import { Confirm } from '../previewUi'
+import { StorageNotice } from '../storageSafety'
 import { surah } from '../../../lib/quran'
 import { setReciteTarget } from './recite'
 import { MushafIndex } from './mushafIndex'
@@ -44,7 +46,7 @@ export function DigitalMushaf() {
   const open = (pg: number, focus?: Focus) => set({ nav: navTo(pg, focus), stage: 'reader', view: 'reading' })
   const recite = (rs: number, ra: number) => (setReciteTarget({ s: rs, a: ra }), goScreen('recite'))
 
-  const ret = <><ReturnToJourney /><ReadingTaskBar /></>
+  const ret = <><ReturnToJourney /><ReadingTaskBar /><RevisionTaskBar /></>
 
   if (s.stage === 'index') return <div className="relative h-full"><MushafIndex pg={s.nav.pg} onOpen={open} />{ret}</div>
 
@@ -60,26 +62,53 @@ export function DigitalMushaf() {
   // Mobile reader is full-screen (no app dock), like the production Reader.
   return (
     <div className="mp absolute inset-0" data-tone={s.tone}>
+      <div className="pointer-events-none absolute inset-x-0 top-12 z-[70] [&>*]:pointer-events-auto"><StorageNotice /></div>
       <MobileReader bare auto label="" pg={s.nav.pg} focus={s.nav.focus} view={s.view} tone={s.tone} setTone={setTone} onView={(view) => set({ view })} onGo={go} onBack={back} onRecite={recite} />
       {ret}
     </div>
   )
 }
 
-/** Opened from a reading / khatmah task: the explicit way to record it, and back to the roadmap. */
+/** Opened from a reading / khatmah task: the explicit, confirmed way to record it, and back to the roadmap. */
 function ReadingTaskBar() {
   const t = useActiveTask()
   const st = usePreview()
   const { go } = useProto()
-  if (!t || t.activity !== 'reading') return null
-  const done = st.tasks.some((x) => x.id === `${t.planId}:${t.date}`)
-  const complete = () => actions.completeTask(t.planId, t.date)
+  const [ask, setAsk] = useState(false)
+  const [fail, setFail] = useState(false)
+  if (!t || t.kind !== 'plan' || !t.planId || t.activity !== 'reading') return null
+  const done = st.tasks.some((x) => x.planId === t.planId && x.date === t.date)
+  const future = t.date > today()
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-40 z-[66] flex justify-center px-4">
       <div className="glass-panel pointer-events-auto flex max-w-[460px] flex-wrap items-center gap-2 rounded-[22px] px-3.5 py-2.5 text-[12.5px]" data-reading-task>
-        <span className="min-w-0 flex-1"><b className="font-semibold">{t.name}</b> · ورد {rangeAr(t.unit, t.from, t.to)}</span>
-        {done ? <span className="rounded-full bg-leaf/12 px-3 py-1.5 font-semibold text-leaf">سُجّلت القراءة</span> : <button type="button" onClick={complete} className="press h-8 rounded-full bg-night px-3 font-semibold text-parchment" data-complete-reading>أتممت الورد</button>}
+        <span className="min-w-0 flex-1"><b className="font-semibold">{t.name}</b> · ورد {rangeAr(t.unit, t.from, t.to)}{fail && <span className="block text-clay">لم يُسجَّل: الورد مسجّل أو لم يعد مستحقًّا.</span>}{future && <span className="block text-muted">ورد قادم · يُسجَّل في يومه</span>}</span>
+        {done ? <span className="rounded-full bg-leaf/12 px-3 py-1.5 font-semibold text-leaf">سُجّلت القراءة</span> : !future && <button type="button" onClick={() => setAsk(true)} className="press h-8 rounded-full bg-night px-3 font-semibold text-parchment" data-complete-reading>أتممت الورد</button>}
         <button type="button" onClick={() => (setActiveTask(null), go('week'))} className="press h-8 rounded-full px-3 ring-1 ring-line">خريطة الأسبوع</button>
+      </div>
+      {ask && (
+        <Confirm
+          title="تأكيد إتمام الورد"
+          body={`يُسجَّل ورد ${rangeAr(t.unit, t.from, t.to)} قراءةً فقط إذا قرأته فعلًا. القراءة لا تُحتسب حفظًا.`}
+          confirm="سجّل القراءة"
+          onCancel={() => setAsk(false)}
+          onConfirm={() => (setFail(!actions.completeTask(t.planId!, t.date, { confirmedRead: true })), setAsk(false))}
+        />
+      )}
+    </div>
+  )
+}
+
+/** Opened from a page-based revision: which revision this page belongs to, and the way back to confirm it. */
+function RevisionTaskBar() {
+  const t = useActiveTask()
+  const { go } = useProto()
+  if (!t || t.activity !== 'revision') return null
+  return (
+    <div className="pointer-events-none absolute inset-x-0 bottom-40 z-[66] flex justify-center px-4">
+      <div className="glass-panel pointer-events-auto flex max-w-[460px] flex-wrap items-center gap-2 rounded-[22px] px-3.5 py-2.5 text-[12.5px]" data-revision-bar>
+        <span className="min-w-0 flex-1"><b className="font-semibold">مراجعة: {t.name}</b> · {rangeAr(t.unit, t.from, t.to)}</span>
+        <button type="button" onClick={() => go('revision', t.taskId ?? 'scope')} className="press h-8 rounded-full bg-night px-3 font-semibold text-parchment" data-back-revision>العودة لتأكيد المراجعة</button>
       </div>
     </div>
   )

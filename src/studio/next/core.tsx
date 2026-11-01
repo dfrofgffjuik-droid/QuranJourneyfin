@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { loadMushaf } from '../../lib/quran'
 import { I } from '../kit'
+import { StorageNotice } from './storageSafety'
 
 /** Production icon set + Studio extras (info, lock, leaf…), same 24px stroke style. */
 export function Icon({ name, size = 22, className = '', fill = false }: { name: string; size?: number; className?: string; fill?: boolean }) {
@@ -137,14 +138,15 @@ export function Chrome({ children, bare = false, dock = true }: { children: Reac
               </button>
             ))}
           </nav>
-          <p className="px-3 text-[11px] leading-relaxed text-muted">معاينة تصميم · لا تتصل ببيانات التطبيق</p>
+          <p className="px-3 text-[11px] leading-relaxed text-muted">معاينة تصميم · لا تتصل ببيانات التطبيق · التقدّم محفوظ على هذا المتصفح في هذا الجهاز فقط</p>
         </aside>
-        <main className="no-scrollbar min-w-0 flex-1 overflow-y-auto">{children}</main>
+        <main className="no-scrollbar min-w-0 flex-1 overflow-y-auto"><StorageNotice />{children}</main>
       </div>
     )
   return (
     <div className="relative h-full">
       <main className={`no-scrollbar h-full overflow-y-auto ${bare ? '' : 'pt-12'} ${dock ? 'pb-28' : ''}`}>{children}</main>
+      <div className="pointer-events-none absolute inset-x-0 top-12 z-[70] [&>*]:pointer-events-auto"><StorageNotice /></div>
       {dock && (
         <nav className="absolute inset-x-0 bottom-0 z-40 flex justify-center px-3 pb-6" aria-label="التنقل">
           <div className="glass-panel flex items-center gap-1 rounded-full p-1.5">

@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Chrome, Head, Icon, MoreTabs, toAr, useDevice, useProto } from '../core'
 import { SURAHS, surah } from '../../../lib/quran'
 import {
-  ACTIVITY_AR, DAY_AR, STATUS_AR, TYPE_AR, actions, activityOf, addDays, derived, estimateFinish, fmtDate, nextTask, planRange, planTasks, rangeAr, scopeAr, today, unitAr, usePreview, validatePlan, weekDates,
+  ACTIVITY_AR, DAY_AR, STATUS_AR, TYPE_AR, actions, activityOf, addDays, derived, editMakesVersion, estimateFinish, fmtDate, nextTask, planProgress, planRange, planTasks, rangeAr, scopeAr, today, unitAr, usePreview, validatePlan, weekDates,
   type Activity, type Plan, type PlanDraft, type PlanType, type Scope, type Unit, type Workload,
 } from '../progress'
 import { Confirm, DataBar, useToast } from '../previewUi'
@@ -70,6 +70,7 @@ function PlanList({ onNew, onOpen, toast }: { onNew: () => void; onOpen: (id: st
   const [showArchived, setShowArchived] = useState(false)
   const live = st.plans.filter((p) => p.status === 'active' || p.status === 'paused').sort((a, b) => Number(b.primary) - Number(a.primary) || Number(a.status === 'paused') - Number(b.status === 'paused'))
   const done = st.plans.filter((p) => p.status === 'completed')
+  const closed = st.plans.filter((p) => p.status === 'closed')
   const archived = st.plans.filter((p) => p.status === 'archived')
   if (st.plans.length === 0)
     return (
@@ -86,6 +87,7 @@ function PlanList({ onNew, onOpen, toast }: { onNew: () => void; onOpen: (id: st
         {live.length === 0 ? <p className="rounded-[20px] bg-card/60 p-4 text-[13px] text-muted ring-1 ring-line">لا توجد خطة نشطة الآن. <button type="button" onClick={onNew} className="font-semibold text-gold underline">أنشئ خطة</button> أو استأنف خطة متوقفة.</p> : live.map((p) => <PlanCard key={p.id} p={p} onOpen={() => onOpen(p.id)} toast={toast} />)}
       </Section>
       {done.length > 0 && <Section title="المكتملة" count={done.length}>{done.map((p) => <PlanCard key={p.id} p={p} onOpen={() => onOpen(p.id)} toast={toast} />)}</Section>}
+      {closed.length > 0 && <Section title="المغلقة يدويًا" count={closed.length}>{closed.map((p) => <PlanCard key={p.id} p={p} onOpen={() => onOpen(p.id)} toast={toast} />)}</Section>}
       {archived.length > 0 && (
         <div>
           <button type="button" onClick={() => setShowArchived((v) => !v)} aria-expanded={showArchived} className="press flex items-center gap-1.5 text-[13.5px] font-semibold text-muted"><Icon name="chevronDown" size={15} className={showArchived ? 'rotate-180' : ''} />المؤرشفة · {toAr(archived.length)}</button>
@@ -105,7 +107,7 @@ function Section({ title, count, children }: { title: string; count: number; chi
   )
 }
 
-const statusTone = (p: Plan) => (p.status === 'active' ? 'bg-leaf/10 text-leaf' : p.status === 'paused' ? 'bg-gold-soft text-night' : p.status === 'completed' ? 'bg-sky/10 text-sky' : 'bg-night/[.06] text-muted')
+const statusTone = (p: Plan) => (p.status === 'active' ? 'bg-leaf/10 text-leaf' : p.status === 'paused' ? 'bg-gold-soft text-night' : p.status === 'completed' ? 'bg-sky/10 text-sky' : p.status === 'closed' ? 'bg-clay/10 text-clay' : 'bg-night/[.06] text-muted')
 export const scheduleAr = (p: Pick<PlanDraft, 'daily' | 'unit' | 'days'>) => `${toAr(p.daily)} ${unitAr(p.unit, p.daily)} يوميًا · ${p.days.length === 7 ? 'كل يوم' : `${toAr(p.days.length)} ${p.days.length >= 3 && p.days.length <= 10 ? 'أيام' : 'يوم'} في الأسبوع`}`
 
 function PlanCard({ p, onOpen, toast }: { p: Plan; onOpen: () => void; toast: (m: string) => void }) {
@@ -121,6 +123,7 @@ function PlanCard({ p, onOpen, toast }: { p: Plan; onOpen: () => void; toast: (m
             <button type="button" onClick={onOpen} className="text-start text-[15px] font-semibold hover:underline" data-plan-name>{p.name}</button>
             {p.primary && <span className="inline-flex items-center gap-1 rounded-full bg-gold px-2 py-0.5 text-[10.5px] font-semibold text-white"><Icon name="star" size={10} fill />رئيسية</span>}
             {p.demo && <span className="rounded-full bg-sky/10 px-2 py-0.5 text-[10.5px] font-semibold text-sky">تجريبية</span>}
+            {p.version > 1 && <span className="rounded-full bg-night/[.06] px-2 py-0.5 text-[10.5px] font-semibold text-muted" data-plan-version>الإصدار {toAr(p.version)}</span>}
           </p>
           <p className="mt-0.5 text-[12px] text-muted">{TYPE_AR[p.type].ar}{p.type === 'custom' ? ` (${ACTIVITY_AR[p.customActivity]})` : ''} · {scopeAr(p.scope)}</p>
         </div>
@@ -132,7 +135,7 @@ function PlanCard({ p, onOpen, toast }: { p: Plan; onOpen: () => void; toast: (m
         <span className="tabular-nums">{toAr(pr.done)} / {toAr(pr.total)} {unitAr(p.unit, pr.total)}</span>
       </div>
       <p className="mt-2 text-[12px] text-muted" data-next>
-        {p.status === 'paused' ? 'متوقفة مؤقتًا · لا مهام حتى الاستئناف' : p.status === 'completed' ? `اكتملت${p.completedAt ? ` في ${fmtDate(p.completedAt)}` : ''}` : p.status === 'archived' ? 'مؤرشفة' : nt ? <>المهمة التالية: <b className="font-semibold text-night">{nt.date === today() ? 'اليوم' : `${DAY_AR[new Date(`${nt.date}T12:00`).getDay()]} ${fmtDate(nt.date)}`}</b> · {rangeAr(p.unit, nt.from!, nt.to!)}</> : 'لا مهمة في الأسبوعين القادمين'}
+        {p.status === 'paused' ? 'متوقفة مؤقتًا · لا مهام حتى الاستئناف' : p.status === 'completed' ? `اكتملت${p.completedAt ? ` في ${fmtDate(p.completedAt)}` : ''} بمهام مسجّلة` : p.status === 'closed' ? 'أُغلقت يدويًا · لا تُعدّ مكتملة' : p.status === 'archived' ? 'مؤرشفة' : nt ? <>المهمة التالية: <b className="font-semibold text-night">{nt.date === today() ? 'اليوم' : `${DAY_AR[new Date(`${nt.date}T12:00`).getDay()]} ${fmtDate(nt.date)}`}</b> · {rangeAr(p.unit, nt.from!, nt.to!)}</> : 'لا مهمة في الأسبوعين القادمين'}
       </p>
       <PlanActions p={p} toast={toast} onDetails={onOpen} compact />
     </article>
@@ -140,7 +143,7 @@ function PlanCard({ p, onOpen, toast }: { p: Plan; onOpen: () => void; toast: (m
 }
 
 function PlanActions({ p, toast, onDetails, onEdit, compact = false, onDeleted }: { p: Plan; toast: (m: string) => void; onDetails?: () => void; onEdit?: () => void; compact?: boolean; onDeleted?: () => void }) {
-  const [ask, setAsk] = useState<'delete' | 'complete' | 'archive' | null>(null)
+  const [ask, setAsk] = useState<'delete' | 'close' | 'archive' | null>(null)
   const btn = 'press h-8 rounded-full px-3 text-[12px] ring-1 ring-line hover:bg-night/[.04]'
   return (
     <div className="mt-3 flex flex-wrap gap-1.5">
@@ -149,20 +152,20 @@ function PlanActions({ p, toast, onDetails, onEdit, compact = false, onDeleted }
       {p.status === 'active' && <button type="button" onClick={() => (actions.setStatus(p.id, 'paused'), toast('أُوقفت الخطة مؤقتًا'))} className={btn} data-act="pause">إيقاف مؤقت</button>}
       {p.status === 'paused' && <button type="button" onClick={() => (actions.setStatus(p.id, 'active'), toast('استُؤنفت الخطة'))} className={btn} data-act="resume">استئناف</button>}
       {(p.status === 'active' || p.status === 'paused') && !p.primary && <button type="button" onClick={() => (actions.setPrimary(p.id), toast('أصبحت الخطة الرئيسية'))} className={btn} data-act="primary">اجعلها رئيسية</button>}
-      {(p.status === 'active' || p.status === 'paused') && <button type="button" onClick={() => setAsk('complete')} className={btn} data-act="complete">إتمام</button>}
-      {p.status === 'completed' && <button type="button" onClick={() => (actions.setStatus(p.id, 'active'), toast('أُعيد فتح الخطة'))} className={btn} data-act="reopen">إعادة فتح</button>}
-      {p.status !== 'archived' ? <button type="button" onClick={() => setAsk('archive')} className={btn} data-act="archive">أرشفة</button> : <button type="button" onClick={() => (actions.setStatus(p.id, p.completedAt ? 'completed' : 'paused'), toast('أُخرجت من الأرشيف'))} className={btn} data-act="unarchive">إخراج من الأرشيف</button>}
+      {(p.status === 'active' || p.status === 'paused') && <button type="button" onClick={() => setAsk('close')} className={btn} data-act="close">إغلاق الخطة</button>}
+      {(p.status === 'completed' || p.status === 'closed') && <button type="button" onClick={() => (actions.setStatus(p.id, 'active'), toast('أُعيد فتح الخطة'))} className={btn} data-act="reopen">إعادة فتح</button>}
+      {p.status !== 'archived' ? <button type="button" onClick={() => setAsk('archive')} className={btn} data-act="archive">أرشفة</button> : <button type="button" onClick={() => (actions.setStatus(p.id, p.verified ? 'completed' : 'paused'), toast('أُخرجت من الأرشيف'))} className={btn} data-act="unarchive">إخراج من الأرشيف</button>}
       <button type="button" onClick={() => setAsk('delete')} className={`${btn} text-clay`} data-act="delete">حذف</button>
       {ask && (
         <Confirm
-          title={ask === 'delete' ? `حذف «${p.name}»؟` : ask === 'complete' ? 'إتمام الخطة؟' : 'أرشفة الخطة؟'}
-          body={ask === 'delete' ? 'تُحذف الخطة ومهامها من المعاينة. ما سجّلته من حفظ ومراجعة وقراءة يبقى، والإنجازات التي نلتها لا تُسحب.' : ask === 'complete' ? 'تتوقف مهامها وتنتقل إلى «المكتملة». لا يُضاف بذلك أي حفظ؛ التقدّم يبقى كما سُجّل.' : 'تختفي الخطة من الخريطة وتبقى في الأرشيف، ويمكنك إخراجها لاحقًا.'}
-          confirm={ask === 'delete' ? 'حذف نهائي' : ask === 'complete' ? 'إتمام' : 'أرشفة'}
+          title={ask === 'delete' ? `حذف «${p.name}»؟` : ask === 'close' ? 'إغلاق الخطة؟' : 'أرشفة الخطة؟'}
+          body={ask === 'delete' ? 'تُحذف الخطة ومهامها من المعاينة. ما سجّلته من حفظ ومراجعة وقراءة يبقى، والإنجازات التي نلتها لا تُسحب.' : ask === 'close' ? 'الإغلاق إجراء إداري: تتوقف مهامها وتنتقل إلى «المغلقة يدويًا». لا تُعدّ الخطة مكتملة ولا تُمنح به أي إنجازات؛ اكتمال الخطة يُحتسب فقط حين تبلغ هدفها بمهام مسجّلة. التقدّم يبقى كما سُجّل.' : 'تختفي الخطة من الخريطة وتبقى في الأرشيف، ويمكنك إخراجها لاحقًا.'}
+          confirm={ask === 'delete' ? 'حذف نهائي' : ask === 'close' ? 'إغلاق' : 'أرشفة'}
           danger={ask === 'delete'}
           onCancel={() => setAsk(null)}
           onConfirm={() => {
             if (ask === 'delete') (actions.deletePlan(p.id), toast('حُذفت الخطة'), onDeleted?.())
-            else if (ask === 'complete') (actions.setStatus(p.id, 'completed'), toast('اكتملت الخطة'))
+            else if (ask === 'close') (actions.setStatus(p.id, 'closed'), toast('أُغلقت الخطة · دون أي إنجاز'))
             else (actions.setStatus(p.id, 'archived'), toast('أُرشفت الخطة'))
             setAsk(null)
           }}
@@ -203,7 +206,9 @@ function PlanDetail({ id, onBack, onEdit, toast }: { id: string; onBack: () => v
           {[
             ['الهدف اليومي', `${toAr(p.daily)} ${unitAr(p.unit, p.daily)}`],
             ['أيام الدراسة', ORDER.filter((d) => p.days.includes(d)).map((d) => DAY_AR[d].replace('ال', '')).join('، ')],
-            ['التقدّم', `${toAr(pr.done)} / ${toAr(pr.total)} (${toAr(Math.round(pr.pct * 100))}٪)`],
+            ['التقدّم', `${toAr(pr.done)} / ${toAr(pr.total)} ${unitAr(p.unit, pr.total)} (${toAr(Math.round(pr.pct * 100))}٪)`],
+            ['المدى', p.unit === 'page' ? `${rangeAr('page', pr.start, pr.end)} · ${rangeAr('ayah', pr.g0, pr.g1)}` : rangeAr('ayah', pr.g0, pr.g1)],
+            ['الإصدار', `${toAr(p.version)}${p.version > 1 ? ` · منذ ${fmtDate(p.versions[p.versions.length - 1].from)}` : ''}`],
             ['الإنجاز المستهدف', p.targetDate ? fmtDate(p.targetDate) : 'غير محدّد'],
             ['بدأت', fmtDate(p.createdAt)],
             ['التذكير', p.reminder ? `${p.reminder} (معاينة · لا إشعار)` : 'بلا تذكير'],
@@ -233,8 +238,17 @@ function PlanDetail({ id, onBack, onEdit, toast }: { id: string; onBack: () => v
           <h3 className="mb-3 text-[14.5px] font-semibold">ما أتممته</h3>
           {history.length === 0 ? <p className="text-[13px] text-muted">لم تُسجَّل مهمة بعد. تُسجَّل المهمة فقط حين تضغط «سجّل الإتمام».</p> : (
             <ul className="space-y-1.5 text-[12.5px]">
-              {history.map((r) => <li key={r.id} className="flex items-center gap-2"><Icon name="check" size={14} className="text-leaf" /><span className="flex-1">{rangeAr(r.unit, r.from, r.to)}</span><span className="text-muted">{fmtDate(r.date)}{r.demo ? ' · تجريبي' : ''}</span></li>)}
+              {history.map((r) => <li key={r.id} className="flex items-center gap-2" data-history={r.id}><Icon name="check" size={14} className="text-leaf" /><span className="flex-1">{ACTIVITY_AR[r.activity]} · {rangeAr(r.unit, r.from, r.to)}{r.unit === 'page' ? <span className="block text-[11px] text-muted">{rangeAr('ayah', r.g0, r.g1)}</span> : null}</span><span className="text-muted">{fmtDate(r.date)}{p.versions.length > 1 ? ` · الإصدار ${toAr(r.planVersion)}` : ''}{r.demo ? ' · تجريبي' : ''}</span></li>)}
             </ul>
+          )}
+          {p.versions.length > 1 && (
+            <div className="mt-4 border-t border-line/70 pt-3" data-versions>
+              <p className="mb-1.5 text-[12.5px] font-semibold">إصدارات الخطة</p>
+              <ul className="space-y-1 text-[12px] text-muted">
+                {p.versions.map((v) => <li key={v.v}>الإصدار {toAr(v.v)} · من {fmtDate(v.from)} · {TYPE_AR[v.cfg.type].ar} · {scopeAr(v.cfg.scope)} · {toAr(v.cfg.daily)} {unitAr(v.cfg.unit, v.cfg.daily)} يوميًا</li>)}
+              </ul>
+              <p className="mt-1.5 text-[11px] text-muted">كل مهمة مسجّلة تبقى بإصدارها ووحدتها ومداها كما سُجّلت.</p>
+            </div>
           )}
         </section>
       </div>
@@ -250,23 +264,33 @@ function PlanForm({ id, onDone, onCancel }: { id?: string; onDone: (id: string |
   const [d, setD] = useState<PlanDraft>(() => (existing ? { ...existing } : { ...blank(), primary: !st.plans.some((p) => p.status === 'active') }))
   const [nameTouched, setNameTouched] = useState(!!existing)
   const [tried, setTried] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [saveErr, setSaveErr] = useState<string | null>(null)
   const set = (p: Partial<PlanDraft>) => setD((x) => ({ ...x, ...p }))
   const name = nameTouched ? d.name : suggestName(d)
   const draft = { ...d, name }
   const errs = validatePlan(draft)
   const ok = Object.keys(errs).length === 0
+  const bumps = !!existing && editMakesVersion(st, existing.id, draft)
   const show = (k: string) => (tried || k !== 'name' ? errs[k] : undefined)
   const field = 'h-11 rounded-2xl bg-card px-3 text-[14px] ring-1 ring-line outline-none focus:ring-2 focus:ring-gold'
   const setType = (type: PlanType) => {
     const pageish = type === 'reading' || type === 'khatmah'
     set({ type, unit: pageish ? 'page' : type === 'custom' ? d.unit : 'ayah', daily: WORKLOAD[d.workload][pageish ? 'page' : 'ayah'], scope: type === 'khatmah' ? { kind: 'quran' } : d.scope.kind === 'pages' && !pageish ? { kind: 'surah', s: 67, from: 1, to: 30 } : d.scope })
   }
+  // One submission at a time; a success message only when the store actually accepted it.
   const save = () => {
     setTried(true)
-    if (!ok) return
-    if (existing) onDone(actions.updatePlan(existing.id, draft) ? existing.id : null, 'حُفظت التعديلات · حُدّثت خريطة الأسبوع')
-    else {
+    if (!ok || busy) return
+    setBusy(true)
+    setSaveErr(null)
+    if (existing) {
+      const r = actions.updatePlan(existing.id, draft)
+      if (!r) return (setBusy(false), setSaveErr('لم تُحفظ التعديلات: راجع الحقول، أو أن الخطة لم تعد موجودة.'))
+      onDone(existing.id, r.bumped ? `أُنشئ الإصدار ${toAr(r.version)} من الخطة · المهام السابقة محفوظة بإعداداتها الأصلية` : 'حُفظت التعديلات · حُدّثت خريطة الأسبوع')
+    } else {
       const nid = actions.createPlan(draft)
+      if (!nid) return (setBusy(false), setSaveErr('لم تُنشأ الخطة: راجع الحقول المعلَّمة.'))
       onDone(nid, 'أُنشئت الخطة · ظهرت مهامها في خريطة الأسبوع')
     }
   }
@@ -338,12 +362,18 @@ function PlanForm({ id, onDone, onCancel }: { id?: string; onDone: (id: string |
             اجعلها الخطة الرئيسية (خطة رئيسية واحدة فقط)
           </label>
         </Step>
+        {bumps && (
+          <p role="status" className="rounded-[18px] bg-gold-soft/60 p-3.5 text-[12.5px] leading-relaxed ring-1 ring-gold/30" data-version-notice>
+            <b className="font-semibold">سيُنشئ هذا التعديل الإصدار {toAr(existing!.version + 1)} من الخطة.</b> غيّرت نوعها أو وحدتها أو نطاقها أو هدفها اليومي بعد تسجيل تقدّم. المهام المسجّلة سابقًا تبقى بإعداداتها الأصلية (الوحدة والمدى) ولا يُعاد تفسيرها، والإصدار الجديد يبدأ من أول ما لم يُسجَّل في نطاقه.
+          </p>
+        )}
         {!desk && summary}
         <div className="flex flex-wrap items-center gap-2">
-          <button type="submit" disabled={tried && !ok} className="press h-12 flex-1 rounded-full bg-night text-[14px] font-semibold text-parchment disabled:opacity-40" data-save>{existing ? 'احفظ التعديلات' : 'أنشئ الخطة'}</button>
+          <button type="submit" disabled={(tried && !ok) || busy} aria-busy={busy} className="press h-12 flex-1 rounded-full bg-night text-[14px] font-semibold text-parchment disabled:opacity-40" data-save>{existing ? 'احفظ التعديلات' : 'أنشئ الخطة'}</button>
           <button type="button" onClick={onCancel} className="press h-12 rounded-full px-5 text-[13.5px] ring-1 ring-line">إلغاء</button>
         </div>
         {tried && !ok && <p role="alert" className="text-[12.5px] text-clay" data-form-error>راجع الحقول المعلَّمة قبل الحفظ.</p>}
+        {saveErr && <p role="alert" className="text-[12.5px] text-clay" data-save-error>{saveErr}</p>}
       </form>
       {desk && <div className="sticky top-0">{summary}</div>}
     </div>
@@ -403,8 +433,11 @@ function Summary({ d, ok, planId }: { d: PlanDraft; ok: boolean; planId?: string
   const sim = useMemo(() => {
     if (!ok) return null
     const r = planRange(d)
-    const p: Plan = { ...d, id: planId ?? '__draft__', status: 'active', createdAt: planId ? st.plans.find((x) => x.id === planId)!.createdAt : today(), completedAt: null }
-    const done = planId ? derived(st).progress.get(planId)?.done ?? 0 : 0
+    const base = planId ? st.plans.find((x) => x.id === planId) : undefined
+    const createdAt = base?.createdAt ?? today()
+    const p: Plan = { ...(base ?? { version: 1, versions: [], schedule: [], verified: null, completedAt: null }), name: d.name, type: d.type, customActivity: d.customActivity, scope: d.scope, unit: d.unit, daily: d.daily, days: d.days, workload: d.workload, targetDate: d.targetDate, reminder: d.reminder, primary: d.primary, id: planId ?? '__draft__', status: 'active', createdAt, schedule: [{ from: createdAt, days: d.days }] }
+    // Progress under the edited configuration, from the canonical ranges already recorded.
+    const done = planId ? planProgress(st, p).done : 0
     const left = Math.max(0, r.total - done)
     const finish = estimateFinish(left, d.daily, d.days)
     const week = planTasks(st, p, weekDates()).filter((t) => t.state !== 'unrecorded')

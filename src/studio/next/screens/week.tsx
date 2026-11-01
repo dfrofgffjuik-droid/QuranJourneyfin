@@ -2,12 +2,12 @@
 // generated from the shared preview plans (../progress): study weekdays, daily
 // targets and the plan's real cursor. A weekday with no task is an intentional
 // rest day; an earlier day without a record is "not recorded", never "missed".
-// Tasks complete only by an explicit «سجّل الإتمام»; opening one records nothing.
+// The roadmap only navigates: tasks are recorded inside their activity flow, never from here.
 import { useState } from 'react'
 import { Chrome, Head, Icon, MoreTabs, toAr, useDevice, useProto } from '../core'
 import { Box, C, GlowDefs, S, STATUS_COLOR, SURFACE, kernel, tint, type Status } from '../iso'
-import { ACTIVITY_AR, DAY_AR, TYPE_AR, actions, fmtDate, rangeAr, today, unitAr, usePreview, weekTasks, type Task } from '../progress'
-import { Confirm, DataBar, useToast } from '../previewUi'
+import { ACTIVITY_AR, DAY_AR, PHASE_AR, TYPE_AR, actions, fmtDate, rangeAr, taskProgress, today, unitAr, usePreview, weekTasks, type Task } from '../progress'
+import { DataBar, useToast } from '../previewUi'
 import { DEST_AR, useStartTask } from '../taskNav'
 
 type Day = ReturnType<typeof weekTasks>[number] & { rest: boolean }
@@ -169,56 +169,49 @@ function DayDetail({ d, toast }: { d: Day; toast: (m: string) => void }) {
         <span className={`rounded-full px-2.5 py-1 text-[11.5px] font-semibold ${st === 'done' ? 'bg-leaf/10 text-leaf' : st === 'progress' ? 'bg-gold-soft' : 'bg-night/[.05] text-muted'}`}>{st === 'done' ? 'اكتملت مهامه' : st === 'progress' ? 'قيد الإنجاز' : d.past ? 'لم تُسجَّل' : 'لم يبدأ'}</span>
       </div>
       <ul className="mt-4 space-y-2.5">{d.tasks.map((t) => <TaskRow key={t.id} t={t} toast={toast} />)}</ul>
-      <p className="mt-4 text-[11px] leading-relaxed text-muted">تُسجَّل المهمة فقط عند «سجّل الإتمام». فتحها لا يُكملها، والأيام السابقة غير المسجّلة لا تُعدّ تقصيرًا.</p>
+      <p className="mt-4 text-[11px] leading-relaxed text-muted">الخريطة للتنقّل والمتابعة: تُسجَّل المهمة داخل نشاطها فقط (رحلة الحفظ، المراجعة، المصحف) بعد إتمامه وتأكيده. فتحها لا يُكملها، والأيام السابقة غير المسجّلة لا تُعدّ تقصيرًا.</p>
     </div>
   )
 }
 
+/**
+ * A navigation and progress surface only: the row opens the real activity (journey, revision
+ * screen or Mushaf), where completion is recorded by its own explicit action. Nothing here
+ * records completion; undo of the latest record stays available.
+ */
 function TaskRow({ t, toast }: { t: Task; toast: (m: string) => void }) {
   const start = useStartTask()
+  const st = usePreview()
   const [open, setOpen] = useState(false)
-  const [confirm, setConfirm] = useState(false)
-  const [sure, setSure] = useState(false)
   const done = t.state === 'done'
-  const canComplete = t.state === 'open' || t.state === 'unrecorded'
-  const complete = () => {
-    if (t.activity === 'hifz') return setConfirm(true)
-    if (actions.completeTask(t.plan.id, t.date)) toast(t.activity === 'revision' ? 'سُجّلت المراجعة · لا تزيد الآيات المحفوظة' : 'سُجّلت القراءة · لا تُحتسب حفظًا')
-  }
-  const stateAr = done ? 'مكتملة' : t.state === 'open' ? 'مستحقّة اليوم' : t.state === 'upcoming' ? 'قادمة' : t.state === 'paused' ? 'الخطة متوقفة' : 'لم تُسجَّل'
+  const pr = taskProgress(st, t)
+  const startable = t.state === 'open' || t.state === 'upcoming' || t.state === 'unrecorded'
+  const when = t.state === 'open' ? 'مستحقّة اليوم' : t.state === 'upcoming' ? 'قادمة' : t.state === 'paused' ? 'الخطة متوقفة' : t.state === 'unrecorded' ? 'يوم سابق لم يُسجَّل' : ''
+  const phase = t.state === 'paused' ? 'الخطة متوقفة' : PHASE_AR[pr.phase]
+  const n = t.from != null ? t.to! - t.from + 1 : 0
+  const label = pr.phase === 'progress' ? 'تابع' : t.state === 'upcoming' ? 'ابدأ مبكرًا' : t.state === 'unrecorded' ? 'افتح النشاط لتسجيله' : 'ابدأ'
   return (
-    <li className="rounded-[20px] bg-night/[.03] p-4 ring-1 ring-line" data-task={t.id} data-state={t.state}>
+    <li className="rounded-[20px] bg-night/[.03] p-4 ring-1 ring-line" data-task={t.id} data-state={t.state} data-phase={pr.phase}>
       <div className="flex items-center gap-3">
-        <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${done ? 'bg-leaf/12 text-leaf' : 'bg-gold-soft text-gold'}`}><Icon name={done ? 'check' : ICON[t.activity]} size={18} /></span>
+        <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${done ? 'bg-leaf/12 text-leaf' : pr.phase === 'progress' ? 'bg-gold text-white' : 'bg-gold-soft text-gold'}`}><Icon name={done ? 'check' : ICON[t.activity]} size={18} /></span>
         <div className="min-w-0 flex-1">
           <p className="text-[13.5px] font-semibold">{ACTIVITY_AR[t.activity]} · <span className="font-normal text-muted">{t.plan.name}</span>{t.plan.primary && <Icon name="star" size={11} fill className="ms-1 inline text-gold" />}</p>
-          <p className="text-[12px] text-muted">{t.from != null ? `${rangeAr(t.unit, t.from, t.to!)} · ${toAr(t.to! - t.from + 1)} ${unitAr(t.unit, t.to! - t.from + 1)}` : t.state === 'unrecorded' ? `${toAr(t.plan.daily)} ${unitAr(t.unit, t.plan.daily)} · يُحدَّد المقطع عند التسجيل` : 'لا مهام حتى الاستئناف'} · {stateAr}</p>
+          <p className="text-[12px] text-muted" data-task-range>{t.from != null ? `${rangeAr(t.unit, t.from, t.to!)} · ${toAr(n)} ${unitAr(t.unit, n)}` : 'لا مهام حتى الاستئناف'}</p>
+          <p className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[11.5px]">
+            <span className={`rounded-full px-2 py-0.5 font-semibold ${done ? 'bg-leaf/10 text-leaf' : pr.phase === 'progress' ? 'bg-gold-soft text-night' : 'bg-night/[.05] text-muted'}`} data-phase-label>{phase}{pr.phase === 'progress' && pr.total > 1 ? ` · ${toAr(pr.done)}/${toAr(pr.total)}` : ''}</span>
+            {when && <span className="text-muted">{when}</span>}
+          </p>
         </div>
       </div>
       <div className="mt-3 flex flex-wrap gap-1.5">
-        {(t.state === 'open' || t.state === 'upcoming') && <button type="button" onClick={() => start(t)} className="press h-8 rounded-full bg-night px-3.5 text-[12px] font-semibold text-parchment" data-start>{t.state === 'open' ? 'ابدأ' : 'ابدأ مبكرًا'} · {DEST_AR[t.activity]}</button>}
-        {canComplete && <button type="button" onClick={complete} className="press h-8 rounded-full bg-leaf/12 px-3.5 text-[12px] font-semibold text-leaf" data-complete>{t.state === 'unrecorded' ? 'سجّلها الآن' : 'سجّل الإتمام'}</button>}
+        {startable && <button type="button" onClick={() => start(t)} className="press h-8 rounded-full bg-night px-3.5 text-[12px] font-semibold text-parchment" data-start>{label} · {DEST_AR[t.activity]}</button>}
         {done && actions.canUndo(t.plan.id, t.date) && <button type="button" onClick={() => actions.undoTask(t.plan.id, t.date) && toast('أُلغي تسجيل المهمة')} className="press h-8 rounded-full px-3.5 text-[12px] ring-1 ring-line" data-undo>تراجع</button>}
         <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} className="press h-8 rounded-full px-3 text-[12px] text-muted hover:bg-night/[.05]">التفاصيل</button>
       </div>
       {open && (
         <dl className="mt-3 grid grid-cols-2 gap-1.5 text-[11.5px]">
-          {[['الخطة', `${t.plan.name} (${TYPE_AR[t.plan.type].ar})`], ['التاريخ', fmtDate(t.date)], ['الوجهة', DEST_AR[t.activity]], ['الحالة', stateAr], ...(t.record ? [['سُجّلت', `${fmtDate(t.record.at.slice(0, 10))}${t.record.demo ? ' · تجريبي' : ''}`]] : [])].map(([k, v]) => <div key={k} className="rounded-[12px] bg-card px-2.5 py-1.5"><dt className="text-muted">{k}</dt><dd className="font-semibold">{v}</dd></div>)}
+          {[['الخطة', `${t.plan.name} (${TYPE_AR[t.plan.type].ar})`], ['التاريخ', fmtDate(t.date)], ['الوجهة', DEST_AR[t.activity]], ['الحالة', phase], ...(t.unit === 'page' && t.g0 != null ? [['الآيات', rangeAr('ayah', t.g0, t.g1!)]] : []), ...(t.record ? [['سُجّلت', `${fmtDate(t.record.at.slice(0, 10))}${t.record.demo ? ' · تجريبي' : ''}`]] : [])].map(([k, v]) => <div key={k} className="rounded-[12px] bg-card px-2.5 py-1.5"><dt className="text-muted">{k}</dt><dd className="font-semibold">{v}</dd></div>)}
         </dl>
-      )}
-      {confirm && (
-        <Confirm
-          title="تأكيد إتمام مهمة الحفظ"
-          body={<><p>تُسجَّل الآيات محفوظة فقط إذا أتقنتها فعلًا. القراءة أو الاستماع وحدهما لا يكفيان.</p><label className="mt-3 flex items-center gap-2 text-night"><input type="checkbox" checked={sure} onChange={(e) => setSure(e.target.checked)} className="h-4 w-4 accent-[var(--color-gold)]" data-confirm-mem />أؤكّد أنني أتقنت حفظ آيات هذه المهمة</label></>}
-          confirm="سجّل الحفظ"
-          onCancel={() => (setConfirm(false), setSure(false))}
-          onConfirm={() => {
-            if (!sure) return
-            if (actions.completeTask(t.plan.id, t.date, { confirmedMemorised: true })) toast('سُجّل الحفظ المؤكَّد · حُدّثت الخريطة والمكتبة')
-            setConfirm(false)
-            setSure(false)
-          }}
-        />
       )}
     </li>
   )

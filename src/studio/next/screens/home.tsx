@@ -6,10 +6,12 @@ import { Chrome, Demo, Icon, toAr, useDevice, useProto } from '../core'
 import { collection, timeOfDay } from '../azkar/catalog'
 import { progressOf, todaySummary, useAzkar } from '../azkar/store'
 const azkarTitle = (id: string) => collection(id)?.ar ?? 'أذكار'
-import { fromGIndex, loadMushaf, surah } from '../../../lib/quran'
-import { ACHIEVEMENTS, ACTIVITY_AR, derived, fmtDate, rangeAr, unitAr, usePreview, weekTasks } from '../progress'
+import { fromGIndex, loadMushaf, pageOf, surah } from '../../../lib/quran'
+import { ACHIEVEMENTS, ACTIVITY_AR, PHASE_AR, derived, fmtDate, rangeAr, taskProgress, unitAr, usePreview, weekTasks } from '../progress'
+import { useSession } from '../session'
 import { DataBar } from '../previewUi'
 import { useStartTask } from '../taskNav'
+import { IsoQuranBook } from '../quranBook'
 
 function useAyahOfDay() {
   const d = new Date()
@@ -52,13 +54,21 @@ export function HomeDashboard() {
   const aod = useAyahOfDay()
   const hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date())
   const h = new Date().getHours()
+  // No profile name exists in the preview, so the greeting never assumes one.
   const greet = h < 12 ? 'صباح الخير' : h < 18 ? 'طاب يومك' : 'مساء الخير'
+  const ses = useSession()
+  const reflections = Object.values(ses.s.notes).filter((x) => x.trim()).length
   const desk = device === 'desktop'
+  // One "continue reading" target for the hero book and the Quran card: the page after the last recorded reading.
+  const continuePg = pd.lastReading ? (pd.lastReading.unit === 'page' ? Math.min(604, pd.lastReading.to + 1) : pageOf(...fromGIndex(pd.lastReading.g1))) : mushaf.s.nav.pg
+  const continueReading = () => (mushaf.set({ stage: 'reader', nav: navTo(continuePg) }), go('mushaf'))
+  const bookState = qTotal === 0 ? 'rest' : qDone === qTotal ? 'done' : 'open'
+  const bookLabel = `مصحف مفتوح على حامل. ${qTotal ? `أُنجز ${toAr(qDone)} من ${toAr(qTotal)} من مهام اليوم، وتضيء الأسطر بقدر ما أُنجز.` : 'لا مهام اليوم.'} اضغط لمتابعة القراءة من الصفحة ${toAr(continuePg)}.`
 
   const journeys = [
     { id: 'quran', title: 'رحلة القرآن', icon: 'book', v: qTotal ? qDone / qTotal : 0, label: qTotal ? `${toAr(qDone)} من ${toAr(qTotal)}` : 'يوم راحة', color: 'var(--color-leaf)', go: () => go('ayah') },
     { id: 'azkar', title: 'رحلة الأذكار', icon: now === 'morning' ? 'sun' : 'moon', v: azNow.total ? azNow.done / azNow.total : 0, label: `${toAr(azNow.done)} من ${toAr(azNow.total)}`, color: 'var(--color-gold)', go: () => go('azkar-list', now) },
-    { id: 'tadabbur', title: 'رحلة التدبّر', icon: 'sparkle', v: 0, label: 'لم تبدأ', color: 'var(--color-sky)', go: () => go('ayah') },
+    { id: 'tadabbur', title: 'رحلة التدبّر', icon: 'sparkle', v: reflections ? 1 : 0, label: reflections ? `${toAr(reflections)} ${reflections >= 3 && reflections <= 10 ? 'تأمّلات' : 'تأمّل'}` : 'لم تبدأ', color: 'var(--color-sky)', go: () => go('ayah') },
   ]
 
   const hero = (
@@ -67,9 +77,28 @@ export function HomeDashboard() {
         <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-[12.5px] backdrop-blur"><Icon name="calendar" size={14} />{hijri}</span>
         <span className="ms-auto rounded-full bg-white/90 text-night"><DataBar compact /></span>
       </div>
-      <p className="mt-6 text-[15px] text-white/80">{greet}، مريم</p>
-      <h1 className={`mt-1.5 font-bold leading-[1.3] ${desk ? 'text-[2.2rem]' : 'text-[1.6rem]'}`}>رحلتك اليوم</h1>
-      <p className="mt-1 text-[14px] text-white/80">ثلاث خطوات هادئة: قرآن، وذكر، وتدبّر.</p>
+      {/* Same composition as the reference: copy on the left, the live Mushaf on the right, progress underneath. */}
+      <div className="mt-4 flex items-center gap-3" dir="ltr">
+        <div className="min-w-0 flex-1" dir="rtl">
+          <p className="text-[15px] text-white/80" data-greeting>{greet}، أهلًا بك</p>
+          <h1 className={`mt-1.5 font-bold leading-[1.3] ${desk ? 'text-[2.2rem]' : 'text-[1.6rem]'}`}>رحلتك اليوم</h1>
+          <p className="mt-1 text-[14px] leading-relaxed text-white/80">ثلاث خطوات هادئة: قرآن، وذكر، وتدبّر.</p>
+        </div>
+        {/* Live Mushaf: lines light with today's completed tasks; opens the reader where you left off. */}
+        <IsoQuranBook progress={qTotal ? qDone / qTotal : 0} state={bookState} onOpen={continueReading} label={bookLabel} className={`shrink-0 drop-shadow-[0_18px_22px_rgba(0,0,0,.2)] ${desk ? 'w-[240px]' : 'w-[165px]'}`} />
+      </div>
+      <div className="mt-4" data-hero-progress>
+        <div className="flex items-center gap-3">
+          <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/25" role="progressbar" aria-valuemin={0} aria-valuemax={6236} aria-valuenow={pd.memCount} aria-label="الآيات المحفوظة من القرآن">
+            <span className="block h-full rounded-full bg-white" style={{ width: `${Math.max(pd.memCount ? 1 : 0, (pd.memCount / 6236) * 100)}%` }} />
+          </span>
+          <span className="text-[12px] tabular-nums text-white/85">{toAr(Math.round((pd.memCount / 6236) * 100))}٪</span>
+        </div>
+        <div className="mt-1.5 flex justify-between text-[12px] text-white/80">
+          <span>{toAr(pd.juz.filter((j) => j.status === 'done').length)}/٣٠ جزءًا مكتملًا</span>
+          <span>{toAr(pd.memCount)}/{toAr(6236)} آية محفوظة</span>
+        </div>
+      </div>
     </header>
   )
 
@@ -92,21 +121,22 @@ export function HomeDashboard() {
         {st.plans.length > 0 && tasks.length === 0 && <li className="text-[13px] text-muted">اليوم يوم راحة في خططك.</li>}
         {tasks.map((t) => {
           const done = t.state === 'done'
+          const ph = taskProgress(st, t)
           return (
             <li key={t.id} className="flex items-center gap-3">
               <span className={`flex h-9 w-9 items-center justify-center rounded-full ${done ? 'bg-leaf/12 text-leaf' : 'bg-gold-soft text-gold'}`}><Icon name={done ? 'check' : t.activity === 'hifz' ? 'sprout' : t.activity === 'revision' ? 'repeat' : 'book'} size={16} /></span>
               <div className="min-w-0 flex-1">
                 <p className="text-[13.5px] font-medium">{ACTIVITY_AR[t.activity]} · <span className="text-muted">{t.plan.name}</span></p>
-                <p className="text-[12px] text-muted">{t.from != null ? `${rangeAr(t.unit, t.from, t.to!)} · ${toAr(t.to! - t.from + 1)} ${unitAr(t.unit, t.to! - t.from + 1)}` : ''} · {done ? 'مكتملة' : 'مستحقّة'}</p>
+                <p className="text-[12px] text-muted">{t.from != null ? `${rangeAr(t.unit, t.from, t.to!)} · ${toAr(t.to! - t.from + 1)} ${unitAr(t.unit, t.to! - t.from + 1)}` : ''} · {PHASE_AR[ph.phase]}{ph.phase === 'progress' && ph.total > 1 ? ` ${toAr(ph.done)}/${toAr(ph.total)}` : ''}</p>
               </div>
-              {t.state === 'open' && <button type="button" onClick={() => start(t)} className="press h-8 rounded-full bg-night px-3 text-[12px] font-semibold text-parchment">ابدأ</button>}
+              {t.state === 'open' && <button type="button" onClick={() => start(t)} className="press h-8 rounded-full bg-night px-3 text-[12px] font-semibold text-parchment">{ph.phase === 'progress' ? 'تابع' : 'ابدأ'}</button>}
             </li>
           )
         })}
       </ul>
       <div className="mt-4 grid grid-cols-2 gap-2">
         <button type="button" onClick={() => go('ayah')} className="press flex h-11 items-center justify-center gap-1.5 rounded-full bg-night text-[13px] font-semibold text-parchment"><Icon name="sprout" size={16} />تابع الحفظ</button>
-        <button type="button" onClick={() => (mushaf.set({ stage: 'reader', nav: navTo(pd.lastReading?.unit === 'page' ? Math.min(604, pd.lastReading.to + 1) : mushaf.s.nav.pg) }), go('mushaf'))} className="press flex h-11 items-center justify-center gap-1.5 rounded-full bg-gold-soft text-[13px] font-semibold"><Icon name="book" size={16} />تابع القراءة في المصحف</button>
+        <button type="button" onClick={continueReading} className="press flex h-11 items-center justify-center gap-1.5 rounded-full bg-gold-soft text-[13px] font-semibold"><Icon name="book" size={16} />تابع القراءة في المصحف</button>
       </div>
       <p className="mt-3 text-[11.5px] text-muted">{pd.lastReading ? `آخر قراءة مسجّلة: ${rangeAr(pd.lastReading.unit, pd.lastReading.from, pd.lastReading.to)} · ${fmtDate(pd.lastReading.at.slice(0, 10))}${pd.lastReading.source === 'demo' ? ' (تجريبي)' : ''}` : 'لا قراءة مسجّلة بعد.'}</p>
     </Card>

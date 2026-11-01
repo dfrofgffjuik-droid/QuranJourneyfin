@@ -2,13 +2,13 @@
 // Stations come from the shared preview memorisation records (../progress), the
 // same source as the Achievement Library, so both always agree. Reading or
 // revision never lights a station; only confirmed memorisation does.
-import { useState } from 'react'
-import { Chrome, Head, Icon, toAr, useDevice, useProto } from '../core'
+import { Chrome, Head, Icon, toAr, useDevice } from '../core'
 import { JUZ_AR } from '../data'
 import { derived, usePreview, type JuzInfo } from '../progress'
 import { DataBar } from '../previewUi'
 import { Box, C, GlowDefs, S, STATUS_COLOR, SURFACE, kernel, tint } from '../iso'
-import { TOTAL_AYAT, surah } from '../../../lib/quran'
+import { TOTAL_AYAT, gIndex, surah } from '../../../lib/quran'
+import { setMapJuz, useActiveTask, useMapJuz, useStartScope } from '../taskNav'
 
 const STATUS_AR = { done: 'مكتمل الحفظ', progress: 'قيد الحفظ', idle: 'لم يبدأ', rest: '', locked: '' } as const
 const pct = (j: JuzInfo) => Math.floor((j.memorised / j.total) * 100)
@@ -18,7 +18,9 @@ export function JourneyMap() {
   const d = derived(usePreview())
   const JUZ_INFO = d.juz
   const TOTAL_MEMORISED = d.memCount
-  const [sel, setSel] = useState<number>(() => JUZ_INFO.find((j) => j.status === 'progress')?.j ?? 1)
+  // The selected Juz is kept in the preview's UI state, so it survives navigation and refresh.
+  const sel = useMapJuz() ?? JUZ_INFO.find((j) => j.status === 'progress')?.j ?? 1
+  const setSel = setMapJuz
   const j = JUZ_INFO[sel - 1]
   const done = JUZ_INFO.filter((x) => x.status === 'done').length
   const prog = JUZ_INFO.filter((x) => x.status === 'progress').length
@@ -136,7 +138,11 @@ function MapSvg({ juz: JUZ_INFO, cols, width, sel, onSel }: { juz: JuzInfo[]; co
 }
 
 export function JuzDetail({ j, compact = false }: { j: JuzInfo; compact?: boolean }) {
-  const { go } = useProto()
+  const start = useStartScope()
+  const active = useActiveTask()
+  const g0 = gIndex(...j.start)
+  const g1 = gIndex(...j.end)
+  const open = active?.kind === 'scope' && active.juz === j.j ? active : null
   const p = pct(j)
   return (
     <div>
@@ -164,9 +170,10 @@ export function JuzDetail({ j, compact = false }: { j: JuzInfo; compact?: boolea
         </div>
       )}
       <div className={`grid grid-cols-2 gap-2 ${compact ? 'mt-3' : 'mt-6'}`}>
-        <button type="button" onClick={() => go('ayah')} disabled={j.status === 'done'} className="press flex h-11 items-center justify-center gap-1.5 rounded-full bg-night text-[13.5px] font-semibold text-parchment disabled:opacity-40"><Icon name="sprout" size={17} />احفظ</button>
-        <button type="button" onClick={() => go('revision')} disabled={j.memorised === 0} className="press flex h-11 items-center justify-center gap-1.5 rounded-full bg-gold-soft text-[13.5px] font-semibold disabled:opacity-40"><Icon name="repeat" size={17} />راجع</button>
+        <button type="button" onClick={() => start({ activity: 'hifz', g0, g1, juz: j.j })} disabled={j.status === 'done'} className="press flex h-11 items-center justify-center gap-1.5 rounded-full bg-night text-[13.5px] font-semibold text-parchment disabled:opacity-40" data-juz-hifz={j.j}><Icon name="sprout" size={17} />احفظ</button>
+        <button type="button" onClick={() => start({ activity: 'revision', g0, g1, juz: j.j })} disabled={j.memorised === 0} className="press flex h-11 items-center justify-center gap-1.5 rounded-full bg-gold-soft text-[13.5px] font-semibold disabled:opacity-40" data-juz-revise={j.j}><Icon name="repeat" size={17} />راجع</button>
       </div>
+      {open && <p className="mt-2 text-center text-[11.5px] text-muted" data-juz-active>{open.activity === 'hifz' ? 'رحلة حفظ هذا الجزء مفتوحة' : 'مراجعة هذا الجزء مفتوحة'} · تتابعها من حيث توقفت</p>}
     </div>
   )
 }

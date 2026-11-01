@@ -14,7 +14,7 @@ export function DataBar({ compact = false }: { compact?: boolean }) {
   const store = storageStatus()
   return (
     <div className="relative" data-databar>
-      <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} className={`press inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ${demo ? 'bg-sky/10 text-sky' : 'bg-night/[.06] text-muted'}`} title="بيانات المعاينة — ليست تقدّمك الحقيقي">
+      <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} className={`press inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ${store !== 'ok' ? 'bg-clay/12 text-clay' : demo ? 'bg-sky/10 text-sky' : 'bg-night/[.06] text-muted'}`} title="بيانات المعاينة — محفوظة على هذا الجهاز فقط">
         <Icon name="info" size={12} />
         {demo ? 'بيانات تجريبية' : 'بيانات المعاينة'}
         {!compact && <Icon name="chevronDown" size={12} />}
@@ -23,9 +23,9 @@ export function DataBar({ compact = false }: { compact?: boolean }) {
         <div className="absolute end-0 top-full z-[80] mt-2 w-[290px] rounded-[20px] bg-card p-4 text-start shadow-[0_20px_50px_-20px_rgba(0,0,0,.4)] ring-1 ring-line" role="dialog" aria-label="بيانات المعاينة">
           <p className="text-[13px] font-semibold">{demo ? 'سيناريو تجريبي محدّد مسبقًا' : 'بيانات أنشأتها في المعاينة'}</p>
           <p className="mt-1 text-[12px] leading-relaxed text-muted">
-            {demo ? 'السجلات التجريبية بتواريخ ثابتة ومعلَّمة، ولا تمثّل حفظًا أو إنجازًا حقيقيًا.' : 'كل ما تسجّله هنا للمعاينة فقط.'} تُحفظ على هذا المتصفح بمفتاح منفصل عن التطبيق، ولا تمسّ بيانات حسابك.
+            {demo ? 'السجلات التجريبية بتواريخ ثابتة ومعلَّمة، ولا تمثّل حفظًا أو إنجازًا حقيقيًا.' : 'كل ما تسجّله هنا للمعاينة فقط.'} تُحفظ على هذا المتصفح في هذا الجهاز فقط، بمفتاح منفصل عن التطبيق: لا مزامنة سحابية، ولا تنتقل إلى جهاز أو متصفح آخر، وتضيع إذا مُسحت بيانات هذا المتصفح.
           </p>
-          {store !== 'ok' && <p className="mt-2 rounded-[12px] bg-clay/10 px-2.5 py-1.5 text-[11.5px] text-clay" role="alert">{store === 'unavailable' ? 'تعذّر الحفظ في المتصفح؛ ستبقى التغييرات حتى إغلاق الصفحة فقط.' : 'كانت بيانات المعاينة المحفوظة تالفة، فاستُعيد السيناريو التجريبي.'}</p>}
+          {store !== 'ok' && <p className="mt-2 rounded-[12px] bg-clay/10 px-2.5 py-1.5 text-[11.5px] text-clay" role="alert">{store === 'unavailable' ? 'تعذّر الحفظ على هذا الجهاز (مساحة ممتلئة أو تخزين معطّل)؛ ستبقى التغييرات حتى إغلاق الصفحة فقط.' : 'تعذّرت قراءة بعض البيانات المحفوظة. لم تُحذف: احتُفظ بنسخة كاملة منها على هذا الجهاز.'}</p>}
           <div className="mt-3 grid gap-1.5">
             <button type="button" onClick={() => setConfirm('demo')} className="press h-9 rounded-full bg-night text-[12.5px] font-semibold text-parchment" data-reset="demo">استعادة البيانات التجريبية</button>
             <button type="button" onClick={() => setConfirm('empty')} className="press h-9 rounded-full text-[12.5px] ring-1 ring-line" data-reset="empty">ابدأ من حالة فارغة</button>

@@ -9,7 +9,7 @@ import { RECITERS, SURAHS, ayahAudioUrl, firstLetter, hizbOf, juzOf, loadMushaf,
 import { TAFSIRS, loadTafsir, type TafsirText } from '../../../lib/tafsir'
 import { DEMO_PASSAGE, MAX_PASSAGE, akey, isDemoPassage, pairsForPassage, passageAyat, useSession, validatePassage, type MemResult, type PanelId, type Passage } from '../session'
 import { RevisionRecall, SimilarPanel } from './similarPanel'
-import { actions as progress, derived, rangeAr, usePreview } from '../progress'
+import { actions as progress, chunksOf, derived, rangeAr, today, usePreview, type Chunk } from '../progress'
 import { setActiveTask, useActiveTask } from '../taskNav'
 import { Confirm } from '../previewUi'
 import { gIndex } from '../../../lib/quran'
@@ -171,7 +171,9 @@ export function AyahJourney() {
     </div>
   )
 
-  const slideCls = `relative flex snap-start snap-always flex-col ${device === 'desktop' ? 'h-full justify-center px-10' : 'h-full px-6 pb-36 pt-28'}`
+  // On mobile the task banner (range + passage navigation) sits in the top panel; keep verses clear of it.
+  const taskOpen = useActiveTask()?.activity === 'hifz'
+  const slideCls = `relative flex snap-start snap-always flex-col ${device === 'desktop' ? 'h-full justify-center px-10' : `h-full px-6 pb-36 ${taskOpen ? 'pt-60' : 'pt-28'}`}`
   const slides = ready ? (
     text.ayat.map((t, i) => {
       const a = p.from + i
@@ -320,29 +322,84 @@ export function AyahJourney() {
   )
 }
 
-/** When the journey was opened from a memorisation task: progress on it and the explicit, confirmed completion. */
+/**
+ * When the journey was opened from a memorisation task or a Juz: the exact range (in its own
+ * unit), its passages (≤ 20 ayat, never across a surah) and the explicit confirmations. A plan
+ * task is recorded only after every passage is confirmed; opening or scrolling records nothing.
+ */
 function HifzTaskBanner({ compact = false }: { compact?: boolean }) {
   const t = useActiveTask()
   const st = usePreview()
-  const [ask, setAsk] = useState(false)
+  const ses = useSession()
+  const [ask, setAsk] = useState<null | 'chunk' | 'task'>(null)
   const [sure, setSure] = useState(false)
+  const [msg, setMsg] = useState<string | null>(null)
   if (!t || t.activity !== 'hifz') return null
   const d = derived(st)
-  const total = t.to - t.from + 1
-  const mastered = d.memBetween(t.from, t.to)
-  const done = st.tasks.some((x) => x.id === `${t.planId}:${t.date}`)
+  const chunks = chunksOf(t.g0, t.g1)
+  const confirmed = st.steps[t.stepKey] ?? {}
+  const isDone = (c: Chunk) => !!confirmed[c.id] || (t.kind === 'scope' && d.memBetween(c.g0, c.g1) === c.g1 - c.g0 + 1)
+  const doneN = chunks.filter(isDone).length
+  const p = ses.s.passage
+  const idx = chunks.findIndex((c) => c.s === p.s && c.from === p.from && c.to === p.to)
+  const c = idx >= 0 ? chunks[idx] : null
+  const total = t.g1 - t.g0 + 1
+  const mastered = d.memBetween(t.g0, t.g1)
+  const recorded = t.kind === 'plan' && st.tasks.some((x) => x.planId === t.planId && x.date === t.date)
+  const future = t.date > today()
+  const single = chunks.length === 1
+  const openChunk = (i: number) => {
+    const x = chunks[Math.max(0, Math.min(chunks.length - 1, i))]
+    ses.setPassage({ s: x.s, from: x.from, to: x.to })
+  }
+  const close = () => (setAsk(null), setSure(false))
+  const confirmChunk = () => {
+    if (!c || !sure) return
+    if (!progress.markStep(t.stepKey, c.id, { g0: c.g0, g1: c.g1 })) return (setMsg('لم يُسجَّل المقطع: سُجّل من قبل أو تعذّر التسجيل. أعد المحاولة.'), close())
+    const next = chunks.findIndex((x, i) => i > idx && !isDone(x))
+    setMsg(next >= 0 ? `سُجّل المقطع ${toAr(idx + 1)} محفوظًا · انتقل إلى المقطع التالي` : 'سُجّلت كل مقاطع المهمة')
+    if (next >= 0) openChunk(next)
+    close()
+  }
+  const completeTask = () => {
+    if (!sure || t.kind !== 'plan' || !t.planId) return
+    if (single && c && !confirmed[c.id]) progress.markStep(t.stepKey, c.id, { g0: c.g0, g1: c.g1 })
+    const ok = progress.completeTask(t.planId, t.date, { confirmedMemorised: true })
+    setMsg(ok ? 'سُجّلت المهمة · حُدّثت الخريطة والمكتبة' : 'لم تُسجَّل: أكّد كل المقاطع أولًا، أو أن المهمة لم تعد مستحقّة.')
+    close()
+  }
+  const range = t.unit === 'page' ? `${rangeAr('page', t.from, t.to)} (${rangeAr('ayah', t.g0, t.g1)})` : rangeAr('ayah', t.g0, t.g1)
+  const btn = 'press h-9 rounded-full px-3.5 font-semibold'
   return (
-    <div className={`flex flex-wrap items-center gap-2 bg-gold-soft/50 text-[12px] ${compact ? 'w-full rounded-[16px] px-3 py-2' : 'border-b border-line/60 px-8 py-2.5'}`} data-hifz-task>
-      <span className="min-w-0 flex-1"><b className="font-semibold">مهمة: {t.name}</b> · {rangeAr('ayah', t.from, t.to)} · محفوظة {toAr(mastered)}/{toAr(total)}</span>
-      {done ? <span className="rounded-full bg-leaf/12 px-2.5 py-1 font-semibold text-leaf">سُجّلت المهمة</span> : <button type="button" onClick={() => setAsk(true)} className="press h-8 rounded-full bg-night px-3 font-semibold text-parchment" data-complete-hifz>سجّل الإتمام</button>}
-      {!compact && <button type="button" onClick={() => setActiveTask(null)} aria-label="إخفاء المهمة" className="press h-8 w-8 rounded-full hover:bg-night/[.06]"><Icon name="x" size={14} className="mx-auto" /></button>}
+    <div className={`bg-gold-soft/50 text-[12px] ${compact ? 'w-full rounded-[16px] px-3 py-2' : 'border-b border-line/60 px-8 py-2.5'}`} data-hifz-task data-unit={t.unit} data-g0={t.g0} data-g1={t.g1}>
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="min-w-0 flex-1"><b className="font-semibold">{t.kind === 'plan' ? `مهمة: ${t.name}` : `حفظ ${t.name}`}</b> · <span data-task-range>{range}</span> · محفوظة {toAr(mastered)}/{toAr(total)}</span>
+        {recorded && <span className="rounded-full bg-leaf/12 px-2.5 py-1 font-semibold text-leaf">سُجّلت المهمة</span>}
+        <button type="button" onClick={() => setActiveTask(null)} aria-label="إخفاء المهمة (يبقى ما أكّدته محفوظًا)" className="press h-8 w-8 rounded-full hover:bg-night/[.06]"><Icon name="x" size={14} className="mx-auto" /></button>
+      </div>
+      <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+        <button type="button" onClick={() => openChunk(idx - 1)} disabled={idx <= 0} aria-label="المقطع السابق" className="press h-9 w-9 shrink-0 rounded-full bg-card/70 disabled:opacity-30"><Icon name="chevron" size={14} className="mx-auto" /></button>
+        <select aria-label="مقاطع المهمة" value={idx} onChange={(e) => openChunk(Number(e.target.value))} className="h-9 min-w-0 max-w-full flex-1 rounded-full bg-card px-2 text-[12px] ring-1 ring-line" data-chunk-select>
+          {idx < 0 && <option value={-1}>المقطع المفتوح ليس من هذه المهمة</option>}
+          {chunks.map((x, i) => <option key={x.id} value={i}>{isDone(x) ? '✓ ' : ''}المقطع {toAr(i + 1)} من {toAr(chunks.length)} · {rangeAr('ayah', x.g0, x.g1)}</option>)}
+        </select>
+        <button type="button" onClick={() => openChunk(idx + 1)} disabled={idx < 0 || idx >= chunks.length - 1} aria-label="المقطع التالي" className="press h-9 w-9 shrink-0 rounded-full bg-card/70 disabled:opacity-30"><Icon name="chevron" size={14} className="mx-auto rotate-180" /></button>
+        <span className="tabular-nums text-muted" data-chunks-done>{toAr(doneN)}/{toAr(chunks.length)} مؤكَّدة</span>
+        {idx < 0 && <button type="button" onClick={() => openChunk(Math.max(0, chunks.findIndex((x) => !isDone(x))))} className={`${btn} bg-night text-parchment`}>افتح مقطع المهمة</button>}
+        {!recorded && c && !single && !isDone(c) && <button type="button" onClick={() => setAsk('chunk')} className={`${btn} bg-night text-parchment`} data-confirm-chunk>أتقنت هذا المقطع</button>}
+        {!recorded && t.kind === 'plan' && (single || doneN === chunks.length) && !future && <button type="button" onClick={() => setAsk('task')} disabled={single && idx < 0} className={`${btn} bg-leaf text-white disabled:opacity-40`} data-complete-hifz>سجّل إتمام المهمة</button>}
+      </div>
+      {!recorded && t.kind === 'plan' && !single && doneN < chunks.length && <p className="mt-1 text-muted">يُسجَّل إتمام المهمة بعد تأكيد المقاطع كلها ({toAr(chunks.length - doneN)} متبقية).</p>}
+      {future && t.kind === 'plan' && <p className="mt-1 text-muted">مهمة قادمة: يمكنك الحفظ وتأكيد المقاطع الآن، ويُسجَّل إتمام المهمة في يومها.</p>}
+      {t.kind === 'scope' && doneN === chunks.length && <p className="mt-1 font-semibold text-leaf">أتممت حفظ {t.name} بتأكيدك · بارك الله فيك</p>}
+      {msg && <p role="status" className="mt-1 font-semibold">{msg}</p>}
       {ask && (
         <Confirm
-          title="تأكيد إتمام مهمة الحفظ"
-          body={<><p>تُسجَّل آيات المهمة ({toAr(total)}) محفوظة فقط إذا أتقنتها فعلًا.</p><label className="mt-3 flex items-center gap-2 text-night"><input type="checkbox" checked={sure} onChange={(e) => setSure(e.target.checked)} className="h-4 w-4 accent-[var(--color-gold)]" />أؤكّد أنني أتقنت حفظها</label></>}
+          title={ask === 'chunk' ? `تأكيد حفظ المقطع ${toAr(idx + 1)}` : 'تأكيد إتمام مهمة الحفظ'}
+          body={<><p>{ask === 'chunk' && c ? `تُسجَّل آيات ${rangeAr('ayah', c.g0, c.g1)} (${toAr(c.g1 - c.g0 + 1)}) محفوظة فقط إذا أتقنتها فعلًا.` : `تُسجَّل مهمة ${range} (${toAr(total)} آية) بعد تأكيد مقاطعها كلها، فقط إذا أتقنتها فعلًا.`} القراءة أو الاستماع وحدهما لا يكفيان.</p><label className="mt-3 flex items-center gap-2 text-night"><input type="checkbox" checked={sure} onChange={(e) => setSure(e.target.checked)} className="h-4 w-4 accent-[var(--color-gold)]" data-confirm-mem />أؤكّد أنني أتقنت حفظها</label></>}
           confirm="سجّل الحفظ"
-          onCancel={() => (setAsk(false), setSure(false))}
-          onConfirm={() => sure && (progress.completeTask(t.planId, t.date, { confirmedMemorised: true }), setAsk(false), setSure(false))}
+          onCancel={close}
+          onConfirm={ask === 'chunk' ? confirmChunk : completeTask}
         />
       )}
     </div>
