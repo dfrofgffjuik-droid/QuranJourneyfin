@@ -44,6 +44,8 @@ export { SURAHS }
  * with Tanzil fallback). Each block records which source it actually came from.
  */
 const pages = new Map<number, Promise<PageData>>()
+/** Pages already loaded, so revisiting (or a pre-loaded render) starts with the text instead of an empty page. */
+const resolved = new Map<number, PageData>()
 export function loadPreviewPage(pg: number): Promise<PageData> {
   const n = clampPage(pg)
   if (!pages.has(n)) {
@@ -60,7 +62,7 @@ export function loadPreviewPage(pg: number): Promise<PageData> {
       }))
       return { pg: n, blocks, juz: juzOf(s0, a0), hizb: h.hizb, quarter: h.quarter, surahs: spans.map((x) => x.s), hafs: blocks.every((b) => b.hafs) }
     })
-    p.catch(() => pages.delete(n)) // a failed page can be retried
+    p.then((d) => resolved.set(n, d), () => pages.delete(n)) // a failed page can be retried
     pages.set(n, p)
   }
   return pages.get(n)!
@@ -70,11 +72,11 @@ export type PageState = { d: PageData | null; status: 'loading' | 'ready' | 'err
 /** Page with explicit loading / ready / error states; never returns a different page's content. */
 export function usePageState(pg: number): PageState {
   const n = clampPage(pg)
-  const [st, setSt] = useState<{ pg: number; d: PageData | null; error: boolean }>({ pg: n, d: null, error: false })
+  const [st, setSt] = useState<{ pg: number; d: PageData | null; error: boolean }>(() => ({ pg: n, d: resolved.get(n) ?? null, error: false }))
   const [nonce, setNonce] = useState(0)
   useEffect(() => {
     let live = true
-    setSt((x) => (x.pg === n && x.d ? x : { pg: n, d: null, error: false }))
+    setSt((x) => (x.pg === n && x.d ? x : { pg: n, d: resolved.get(n) ?? null, error: false }))
     loadPreviewPage(n).then(
       (d) => live && setSt({ pg: n, d, error: false }),
       () => live && setSt({ pg: n, d: null, error: true }),

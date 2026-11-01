@@ -63,7 +63,7 @@ export function HomeDashboard() {
   const continuePg = pd.lastReading ? (pd.lastReading.unit === 'page' ? Math.min(604, pd.lastReading.to + 1) : pageOf(...fromGIndex(pd.lastReading.g1))) : mushaf.s.nav.pg
   const continueReading = () => (mushaf.set({ stage: 'reader', nav: navTo(continuePg) }), go('mushaf'))
   const bookState = qTotal === 0 ? 'rest' : qDone === qTotal ? 'done' : 'open'
-  const bookLabel = `مصحف مفتوح على حامل. ${qTotal ? `أُنجز ${toAr(qDone)} من ${toAr(qTotal)} من مهام اليوم، وتضيء الأسطر بقدر ما أُنجز.` : 'لا مهام اليوم.'} اضغط لمتابعة القراءة من الصفحة ${toAr(continuePg)}.`
+  const bookLabel = `مصحف مفتوح على حامل، على الصفحتين الأولى (سورة الفاتحة) والثانية (أول سورة البقرة). ${qTotal ? `أُنجز ${toAr(qDone)} من ${toAr(qTotal)} من مهام اليوم.` : 'لا مهام اليوم.'} اضغط لمتابعة القراءة من الصفحة ${toAr(continuePg)}.`
 
   const journeys = [
     { id: 'quran', title: 'رحلة القرآن', icon: 'book', v: qTotal ? qDone / qTotal : 0, label: qTotal ? `${toAr(qDone)} من ${toAr(qTotal)}` : 'يوم راحة', color: 'var(--color-leaf)', go: () => go('ayah') },
@@ -77,15 +77,16 @@ export function HomeDashboard() {
         <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-[12.5px] backdrop-blur"><Icon name="calendar" size={14} />{hijri}</span>
         <span className="ms-auto rounded-full bg-white/90 text-night"><DataBar compact /></span>
       </div>
-      {/* Same composition as the reference: copy on the left, the live Mushaf on the right, progress underneath. */}
-      <div className="mt-4 flex items-center gap-3" dir="ltr">
-        <div className="min-w-0 flex-1" dir="rtl">
+      {/* Copy and the live Mushaf side by side on desktop. On a phone the Mushaf takes the full width under the
+          title, because its pages carry the real Quran text and must stay large enough to read. */}
+      <div className={desk ? 'mt-4 flex items-center gap-6' : 'mt-4 flex flex-col'} dir="ltr">
+        <div className={desk ? 'min-w-0 flex-1' : 'w-full'} dir="rtl">
           <p className="text-[15px] text-white/80" data-greeting>{greet}، أهلًا بك</p>
           <h1 className={`mt-1.5 font-bold leading-[1.3] ${desk ? 'text-[2.2rem]' : 'text-[1.6rem]'}`}>رحلتك اليوم</h1>
           <p className="mt-1 text-[14px] leading-relaxed text-white/80">ثلاث خطوات هادئة: قرآن، وذكر، وتدبّر.</p>
         </div>
-        {/* Live Mushaf: lines light with today's completed tasks; opens the reader where you left off. */}
-        <IsoQuranBook progress={qTotal ? qDone / qTotal : 0} state={bookState} onOpen={continueReading} label={bookLabel} className={`shrink-0 drop-shadow-[0_18px_22px_rgba(0,0,0,.2)] ${desk ? 'w-[240px]' : 'w-[165px]'}`} />
+        {/* Always open to pages 1–2 (Al-Fatiha, start of Al-Baqarah); a click opens the reader where you left off. */}
+        <IsoQuranBook progress={qTotal ? qDone / qTotal : 0} state={bookState} onOpen={continueReading} label={bookLabel} className={`shrink-0 drop-shadow-[0_18px_22px_rgba(0,0,0,.2)] ${desk ? 'w-[440px]' : 'mx-auto mt-3 w-full max-w-[360px]'}`} />
       </div>
       <div className="mt-4" data-hero-progress>
         <div className="flex items-center gap-3">
